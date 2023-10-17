@@ -208,7 +208,7 @@ export default {
     // console.log('getMasjidConfid DONE')
     this.getPrayerTime();
     this.getSlides();
-    this.getMarquee();
+    // this.getMarquee();
   },
   mounted() {
     // console.log('mounted')
@@ -455,11 +455,11 @@ export default {
       }      
     },
 
-    async getMarquee() {
-      let content =
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi, iusto vitae, accusantium rem, dolor atque quas omnis quo autem quod! Harum amet voluptatum aspernatur dolor reprehenderit rerum, magnam";
-      this.marqueeText = content;
-    },
+    // async getMarquee() {
+    //   let content =
+    //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi, iusto vitae, accusantium rem, dolor atque quas omnis quo autem quod! Harum amet voluptatum aspernatur dolor reprehenderit rerum, magnam";
+    //   this.marqueeText = content;
+    // },
 
     async getSlides() {
       this.slides = (await Get.slides()).data;
