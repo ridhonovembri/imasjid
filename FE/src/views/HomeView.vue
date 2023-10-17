@@ -481,9 +481,6 @@ export default {
       let month = now.getMonth();
       let year = now.getFullYear();
 
-      // console.log(day);
-      // let hari = "";
-
       switch (day) {
         case 0:
           day = "Ahad";
@@ -552,7 +549,6 @@ export default {
 
       this.today = today;
 
-      // const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     },
 
     async getTodayHijrah() {
