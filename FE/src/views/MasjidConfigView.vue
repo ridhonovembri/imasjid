@@ -1,0 +1,284 @@
+<template>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card bordered class="card">
+      <q-card-section elevated class="bg-primary text-grey-1">
+        <div class="text-h6">Konfigurasi Masjid</div>
+      </q-card-section>
+
+      <q-separator />
+      <h7>Setting Hitung Mundur Menuju Adzan</h7>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToAdzanShubuh"
+          type="number"
+          label="Shubuh (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToAdzanDzuhur"
+          type="number"
+          label="Dzuhur (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToAdzanAshar"
+          type="number"
+          label="Ashar (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToAdzanMaghrib"
+          type="number"
+          label="Maghrib (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToAdzanIsya"
+          type="number"
+          label="Isya (Menit)"
+        />
+      </div>
+      <h7 style="margin: 15px">Setting Hitung Mundur Menuju Iqomah</h7>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToIqomahShubuh"
+          type="number"
+          label="Shubuh (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToIqomahDzuhur"
+          type="number"
+          label="Dzuhur (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToIqomahAshar"
+          type="number"
+          label="Ashar (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToIqomahMaghrib"
+          type="number"
+          label="Maghrib (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToIqomahIsya"
+          type="number"
+          label="Isya (Menit)"
+        />
+      </div>
+      <h7 style="margin: 15px">Setting Hitung Mundur Persiapan Adzan</h7>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.MinutesToAdzanPrep"
+          type="number"
+          label="Persiapan Adzan (Menit)"
+        />
+      </div>
+      <h7 style="margin: 15px">Label Sholat</h7>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.LabelShubuh"
+          label="Label Shubuh"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.LabelSyuruq"
+          label="Label Syuruq"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.LabelDzuhur"
+          label="Label Dzuhur"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.LabelAshar"
+          label="Label Ashar"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.LabelMaghrib"
+          label="Label Maghrib"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.LabelIsya"
+          label="Label Isya"
+        />
+      </div>
+      <h7 style="margin: 15px">Penyesuaian waktu sholat</h7>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.AdjustShubuh"
+          type="number"
+          label="+/- Shubuh (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.AdjustSyuruq"
+          type="number"
+          label="+/- Syuruq (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.AdjustDzuhur"
+          type="number"
+          label="+/- Dzuhur (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.AdjustAshar"
+          type="number"
+          label="+/- Ashar (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.AdjustMaghrib"
+          type="number"
+          label="+/- Maghrib (Menit)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.AdjustIsya"
+          type="number"
+          label="+/- Isya (Menit)"
+        />
+      </div>
+      <h7 style="margin: 15px">Koordinat</h7>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.Latitude"
+          label="Latitude"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.Longitude"
+          label="Longitude"
+        />
+      </div>
+      <u><h7 style="margin: 15px">Teks Persiapan Adzan dan Iqomah</h7></u>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.TextBeforeAdzan"
+          label="Sebelum Adzan"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.TextBeforeIqomah"
+          label="Sebelum Iqomah"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.TextDuringSholat"
+          label="Ketika Sholat"
+        />
+      </div>
+      <q-btn
+        color="white"
+        text-color="black"
+        label="Simpan"
+        style="margin: 15px"
+        @click="updatemasjidConfig"
+      />
+    </q-card>
+  </div>
+</template>
+<script>
+import Update from "@/api/http-update";
+import Get from "@/api/http-get";
+import { Notify } from "quasar";
+
+export default {
+  data() {
+    return {
+      masjidConfig: {
+        Id: "",
+        MinutesToAdzanShubuh: "",
+        MinutesToAdzanDzuhur: "",
+        MinutesToAdzanAshar: "",
+        MinutesToAdzanMaghrib: "",
+        MinutesToAdzanIsya: "",
+        MinutesToIqomahShubuh: "",
+        MinutesToIqomahDzuhur: "",
+        MinutesToIqomahAshar: "",
+        MinutesToIqomahMaghrib: "",
+        MinutesToIqomahIsya: "",
+        MinutesToAdzanPrep: "",
+        LabelShubuh:'',
+        LabelSyuruq:'',
+        LabelDzuhur:'',
+        LabelAshar:'',
+        LabelMaghrib:'',
+        LabelIsya:'',
+        AdjustShubuh:'',
+        AdjustSyuruq:'',
+        AdjustDzuhur:'',
+        AdjustAshar:'',
+        AdjustMaghrib:'',
+        AdjustIsya:'',
+        Latitude: 0,
+        Longitude: 0,
+        TextBeforeAdzan:'',
+        TextBeforeIqomah:'',
+        TextDuringSholat:''
+      },
+    };
+  },
+  async mounted() {
+    // this.updatemasjidConfig();
+    this.getmasjidConfig();
+  },
+  methods: {
+    async updatemasjidConfig() {
+      console.log("masjidConfig", this.masjidConfig);
+      console.log("this.masjidConfig.id", this.masjidConfig.Id);
+      // Update.masjidConfig();
+      await Update.masjidConfig(this.masjidConfig.Id, this.masjidConfig).then(
+        (res) => {
+          const status = res.data.status;
+          const message = res.data.message;
+          // console.log("after update", status);
+
+          if (status) {
+            Notify.create({
+              message,
+              color: "blue-8",
+              textColor: "white",
+              icon: "cloud_done",
+            });
+          }
+        }
+      );
+    },
+
+    async getmasjidConfig() {
+      this.masjidConfig = (await Get.masjidConfig()).data;
+      // console.log('masjidConfig', this.masjidConfig)
+    },
+  },
+};
+</script>
+<style scoped>
+.card {
+  width: 100%;
+  text-align: left;
+  /* max-width: 250px */
+}
+
+h7{
+  margin:15px;
+  text-decoration: underline;
+  font-weight: bold;
+}
+</style>
