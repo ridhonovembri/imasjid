@@ -3,7 +3,7 @@ const db = require("../models");
 exports.findAll = async () => {
   try {
     const result = await db.masjidslides.findAll({
-      // orderBy: [["NamaClient","ASC"]]
+      orderBy: [["ImgName","ASC"]]
     });
 
     // console.log('result', result)
@@ -31,7 +31,7 @@ exports.findByName = async (name) => {
       { where: { ImgName: name } }
     );
 
-    console.log('result', result)
+    // console.log('result', result)
     
     return result;
   } catch (e) {

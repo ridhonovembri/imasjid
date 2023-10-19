@@ -13,6 +13,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use(appRoutes)
+require('dotenv').config()
+
+// console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static(__dirname + '/dist/'))
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/dist/index.html'))
+}
 
 let port = process.env.PORT || 3000;
 
