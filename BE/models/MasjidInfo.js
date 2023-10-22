@@ -31,14 +31,6 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING,
           field: 'BKM_PHONE'
         },
-        Latitude: {
-          type: Sequelize.INTEGER,
-          field: 'LATITUDE'
-        },
-        Longitude: {
-          type: Sequelize.INTEGER,
-          field: 'LONGITUDE'
-        },
         CreatedBy: {
           type: Sequelize.STRING,
           field: 'CREATED_BY'

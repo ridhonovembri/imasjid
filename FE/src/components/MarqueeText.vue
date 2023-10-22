@@ -7,12 +7,12 @@
 import Get from '@/api/http-get'
 
 export default {
-  props: ["MarqueeText"],
+  // props: ["MarqueeText"],
   data() {
     return {
-      marquees: [{
-        MarqueeText:''
-      }],
+      // marquees: [{
+      //   MarqueeText:''
+      // }],
       text:''
     };
   },

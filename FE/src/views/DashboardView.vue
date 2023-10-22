@@ -61,7 +61,7 @@ export default {
           separator: false,
         },
         {
-          icon: "inbox",
+          icon: "settings",
           label: "Konfigurasi",
           to: "/masjidconfig",
           separator: true,
@@ -73,13 +73,13 @@ export default {
           separator: false,
         },
         {
-          icon: "delete",
+          icon: "menu_book",
           label: "Hadist Pilihan",
           to: '/hadist',
           separator: false,
         },
         {
-          icon: "error",
+          icon: "slideshow",
           label: "Slides",
           to: '/slides', 
           separator: false,

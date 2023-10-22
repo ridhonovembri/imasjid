@@ -7,11 +7,11 @@
   "test": {
     "dialect": "sqlite",
     "storage": "./VMasjid.db",
-    "logging" : true
+    "logging" : false
   },
   "production": {
     "dialect": "sqlite",
     "storage": "./VMasjid.db",
-    "logging" : true
+    "logging" : false
   }
 }

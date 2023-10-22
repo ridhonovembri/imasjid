@@ -35,6 +35,19 @@ exports.findByName = (req, res) => {
     .catch({});
 };
 
+exports.getSlides = (req, res) => {
+  const name = req.params.name;
+  // console.log(name)
+
+  masjidSlides
+    .getSlides()
+    .then((result) => {
+      // console.log(result)
+      res.status(200).send(JSON.stringify(result));
+    })
+    .catch({});
+};
+
 exports.post = (req, res) => {
   masjidSlides
     .create(req.body)

@@ -107,9 +107,13 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING,
           field: 'TEXT_BEFORE_IQOMAH'
         }, 
-        TextDuringSholat: {
+        TextDuringSholat1: {
           type: Sequelize.STRING,
-          field: 'TEXT_DURING_SHOLAT'
+          field: 'TEXT_DURING_SHOLAT1'
+        }, 
+        TextDuringSholat2: {
+          type: Sequelize.STRING,
+          field: 'TEXT_DURING_SHOLAT2'
         }, 
         Latitude: {
           type: Sequelize.INTEGER,
@@ -119,6 +123,14 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.INTEGER,
           field: 'LONGITUDE'
         },
+        BgImgSholat: {
+          type: Sequelize.STRING,
+          field: 'BG_IMG_SHOLAT'
+        }, 
+        IconDuringSholat: {
+          type: Sequelize.STRING,
+          field: 'ICON_DURING_SHOLAT'
+        }, 
         CreatedBy: {
           type: Sequelize.STRING,
           field: 'CREATED_BY'

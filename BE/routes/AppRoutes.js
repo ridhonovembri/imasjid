@@ -7,6 +7,7 @@ const masjidHadist = require('../controllers/MasjidHadistController')
 const masjidMarquee = require('../controllers/MasjidMarqueeController')
 
 route.get('/api/slides', slides.findAll)
+route.get('/api/getSlides', slides.getSlides)
 route.get('/api/slidesById/:id', slides.findByPk)
 route.get('/api/slideByName/:name', slides.findByName)
 route.post('/api/slide/post', slides.post)

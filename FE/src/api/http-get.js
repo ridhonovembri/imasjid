@@ -5,6 +5,10 @@ class Get {
     return http.get('/slides')
   }
 
+  getSlides(){
+    return http.get('/getSlides')
+  }
+
   slideById(id) {
     return http.get(`/slideById/${ id }`);
   }

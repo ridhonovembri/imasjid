@@ -178,10 +178,29 @@
           v-model="masjidConfig.TextBeforeIqomah"
           label="Sebelum Iqomah"
         />
+
+      </div>
+      <u><h7 style="margin: 15px">Teks dan Background Image Sedang Sholat</h7></u>
+      <div class="q-gutter-xs row" style="margin: 10px">
         <q-input
           standout="bg-teal text-white"
-          v-model="masjidConfig.TextDuringSholat"
-          label="Ketika Sholat"
+          v-model="masjidConfig.TextDuringSholat1"
+          label="Teks 1"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.TextDuringSholat2"
+          label="Teks 2"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.BgImgSholat"
+          label="Background Image"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.IconDuringSholat"
+          label="Icon"
         />
       </div>
       <q-btn
@@ -231,7 +250,10 @@ export default {
         Longitude: 0,
         TextBeforeAdzan:'',
         TextBeforeIqomah:'',
-        TextDuringSholat:''
+        TextDuringSholat1:'',
+        TextDuringSholat2:'',
+        BgImgSholat:'',
+        IconDuringSholat:''
       },
     };
   },

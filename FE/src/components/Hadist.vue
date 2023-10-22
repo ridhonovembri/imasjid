@@ -17,7 +17,7 @@ export default {
     };
   },
   async mounted() {
-    setInterval(() => this.getHadist(), 10000);    
+    setInterval(() => this.getHadist(), 11000);    
   },
   methods: {
     async getHadist(){

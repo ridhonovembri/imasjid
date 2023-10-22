@@ -38,16 +38,6 @@
           v-model="masjidInfo.BkmPhone"
           label="Phone"
         />
-        <q-input
-          standout="bg-teal text-white"
-          v-model="masjidInfo.Latitude"
-          label="Latitude"
-        />
-        <q-input
-          standout="bg-teal text-white"
-          v-model="masjidInfo.Longitude"
-          label="Longitude"
-        />
         <q-btn
           color="white"
           text-color="black"
@@ -74,8 +64,6 @@ export default {
         Province: "",
         BkmPic: "",
         BkmPhone: "",
-        Latitude: "",
-        Longitude: "",
       },
     };
   },

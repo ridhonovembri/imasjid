@@ -3,10 +3,10 @@ const db = require("../models");
 exports.findAll = async () => {
   try {
     const result = await db.masjidslides.findAll({
-      orderBy: [["ImgName","ASC"]]
+      orderBy: [["ImgName", "ASC"]],
     });
 
-    // console.log('result', result)
+    // console.log("result", result);
 
     return result;
   } catch (e) {
@@ -27,12 +27,24 @@ exports.findByPk = async (id) => {
 exports.findByName = async (name) => {
   // console.log('service', name)
   try {
-    const result = await db.masjidslides.findOne(
-      { where: { ImgName: name } }
-    );
+    const result = await db.masjidslides.findOne({ where: { ImgName: name } });
 
     // console.log('result', result)
-    
+
+    return result;
+  } catch (e) {
+    throw e;
+  }
+};
+
+exports.getSlides = async () => {
+  try {
+    const result = await db.masjidslides.findAll({
+      orderBy: [["ImgName", "ASC"]],
+    });
+
+    // console.log("result", result);
+
     return result;
   } catch (e) {
     throw e;
@@ -51,7 +63,6 @@ exports.create = async (data) => {
 };
 
 exports.update = async (id, data) => {
-
   // console.log('BE service: id', id)
   // console.log('BE: data service', data)
 
@@ -65,7 +76,7 @@ exports.update = async (id, data) => {
 };
 
 exports.delete = async (id) => {
-//   console.log("destroy==>", id);
+  //   console.log("destroy==>", id);
   try {
     const result = await db.masjidslides.destroy({
       where: { Id: id },
