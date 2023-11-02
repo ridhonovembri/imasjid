@@ -1,5 +1,5 @@
 <template>
-  <span class="text-h1 hour-minute"> {{ hour }}</span>.
+  <span class="text-h1 hour-minute"> {{ hour }}.</span>.
   <span class="text-h3 second">{{ second }}</span>
 </template>
 <script>

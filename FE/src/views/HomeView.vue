@@ -6,7 +6,8 @@
         animated
         infinite
         padding
-        continue
+        continue        
+        transition-duration="2000"
         style="height: 100vh"
         :autoplay="autoplay"
       >
@@ -46,9 +47,11 @@
     <Sholat v-else-if="sholat" :text1="config.TextDuringSholat1" :text2="config.TextDuringSholat2" :imgSrc="config.IconDuringSholat"/>
     <Hadist v-else />
   </div>
+
   <div class="q-pa-xs marquee" v-show="!sholat">
-    <MarqueeText />
+    <MarqueeText/>
   </div>
+
   <!-- <div class="row q-gutter-sm prayer-time"> -->
   <div class="row q-gutter-sm prayer-time" v-show="!sholat">
     <q-card :class="activeLabel=='Shubuh' ? 'selected' : 'card-prayer'">
@@ -134,11 +137,12 @@ export default {
       prayTimeAll: "",
       today: "",
       todayHijrah: "",
-      autoplay: 10000,
+      autoplay: 0,
       activeLabel: "",
       prepAdzan: false,
       prepIqomah: false,
       sholat: false,
+      jumat: false,
       showCountDownAdzan: false,
       showCountDownIqomah: false,
       isSelected: false,
@@ -163,37 +167,41 @@ export default {
         Isya: "",
       },
       config: {
-        MinutesToAdzanShubuh: "",
-        MinutesToAdzanDzuhur: "",
-        MinutesToAdzanAshar: "",
-        MinutesToAdzanMaghrib: "",
-        MinutesToAdzanIsya: "",
-        MinutesToIqomahShubuh: "",
-        MinutesToIqomahDzuhur: "",
-        MinutesToIqomahAshar: "",
-        MinutesToIqomahMaghrib: "",
-        MinutesToIqomahIsya: "",
-        MinutesToAdzanPrep: "",
+        MinutesToAdzanShubuh: 0,
+        MinutesToAdzanDzuhur: 0,
+        MinutesToAdzanAshar: 0,
+        MinutesToAdzanMaghrib: 0,
+        MinutesToAdzanIsya: 0,
+        MinutesToIqomahShubuh: 0,
+        MinutesToIqomahDzuhur: 0,
+        MinutesToIqomahAshar: 0,
+        MinutesToIqomahMaghrib: 0,
+        MinutesToIqomahIsya: 0,
+        MinutesToAdzanPrep: 0,
         LabelShubuh: '',
         LabelSyuruq: '',
         LabelDzuhur: '',
         LabelAshar: '',
         LabelMaghrib: '',
         LabelIsya: '',
-        AdjustShubuh: '',
-        AdjustSyuruq: '',
-        AdjustDzuhur: '',
-        AdjustAshar: '',
-        AdjustMaghrib: '',
-        AdjustIsya: '',
+        AdjustShubuh: 0,
+        AdjustSyuruq: 0,
+        AdjustDzuhur: 0,
+        AdjustAshar: 0,
+        AdjustMaghrib: 0,
+        AdjustIsya: 0,
         Latitude: 0,
         Longitude: 0,
         TextBeforeAdzan: "",
         TextBeforeIqomah: "",
-        TextDuringSholat1:"",
-        TextDuringSholat2:"",
-        BgImgSholat:"",
-        IconDuringSholat:"",
+        TextDuringSholat1: "",
+        TextDuringSholat2: "",
+        BgImgSholat: "",
+        IconDuringSholat: "",
+        IntervalSlide: 0,
+        IntervalHadist: 0,
+        SholatDuration: 0,
+        SoundLocation: ''
       },
     };
   },
@@ -255,7 +263,13 @@ export default {
       this.config.TextDuringSholat2 = result.TextDuringSholat2
       this.config.BgImgSholat = result.BgImgSholat
       this.config.IconDuringSholat = result.IconDuringSholat
-
+      this.config.IntervalSlide = result.IntervalSlide
+      this.config.IntervalHadist = result.IntervalHadist
+      this.config.SholatDuration = result.SholatDuration
+      this.config.SoundLocation = result.SoundLocation
+      
+      
+      this.autoplay = result.IntervalSlide
       // console.log('this.config', this.config)
 
     },
@@ -264,7 +278,8 @@ export default {
       let today = new Date();
 
       //testing
-      // let currentTime = moment(today).subtract(171, "m");
+      // let currentTime = moment(today).add(657, "m");
+    
 
       //actual
       let currentTime = moment(today);
@@ -281,7 +296,7 @@ export default {
       let distanceToAdzan = "";
       let distanceToIqomah = ""
 
-      if (currentTime > moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm').subtract(this.config.MinutesToAdzanShubuh,"m") && currentTime < moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm').add(this.config.MinutesToIqomahShubuh+11, "m")) {
+      if (currentTime > moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm').subtract(this.config.MinutesToAdzanShubuh,"m") && currentTime < moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh+this.config.MinutesToIqomahShubuh+this.config.SholatDuration, "m")) {
         this.isSelected = true
         distanceToAdzan = moment.utc((moment(this.prayTimeAll.fajr, "HH:mm:ss").add(this.config.AdjustShubuh, 'm')).diff(moment(currentTime, "HH:mm:ss")))
         distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahShubuh, "m")
@@ -294,22 +309,20 @@ export default {
         this.countDownIqomahSecond = distanceToAdzan.format("ss")
 
         //waiting to adzan
-        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
-          // console.log('countdown to adzan')
+        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {          
           this.showCountDownAdzan = false
           this.prepAdzan = true;
         }
 
-        // //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm') && moment(currentTime) <= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm').add(this.config.MinutesToIqomahShubuh, 'm')) {
+        //start to adzan and waiting to iqomah
+        if (moment(currentTime) >= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm') && moment(currentTime) <= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh+this.config.MinutesToIqomahShubuh+this.config.SholatDuration, 'm')) {
           this.showCountDownAdzan = false
           this.prepAdzan = false
-          this.prepIqomah = true    
-          // console.log('wait for iqomah')
+          this.prepIqomah = true              
         }
 
-        if (moment(currentTime) > (moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm')).add(this.config.MinutesToIqomahShubuh, 'm')+10) {       
-          // console.log('waktu mundur iqomah')   
+        //start to sholat
+        if (moment(currentTime) > (moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh+this.config.MinutesToIqomahShubuh,'m'))) {       
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = false
@@ -319,7 +332,7 @@ export default {
           this.autoplay = false
         }
 
-      } else if (currentTime > moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm').subtract(this.config.MinutesToAdzanDzuhur,"m") && currentTime < moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm').add(this.config.MinutesToIqomahDzuhur+11, "m")) {
+      } else if (currentTime > moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm').subtract(this.config.MinutesToAdzanDzuhur,"m") && currentTime < moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur+this.config.MinutesToIqomahDzuhur+this.config.SholatDuration, 'm')) {
         this.isSelected = true
         distanceToAdzan = moment.utc((moment(this.prayTimeAll.dhuhr, "HH:mm:ss").add(this.config.AdjustDzuhur, 'm')).diff(moment(currentTime, "HH:mm:ss")))
         distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahDzuhur, "m")
@@ -332,22 +345,20 @@ export default {
         this.countDownIqomahSecond = distanceToAdzan.format("ss")
 
         //waiting to adzan
-        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
-          // console.log('countdown to adzan')
+        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {        
           this.showCountDownAdzan = false
           this.prepAdzan = true;
         }
 
-        // //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm') && moment(currentTime) <= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm').add(this.config.MinutesToIqomahDzuhur, 'm')) {
+        //start to adzan and waiting to iqomah
+        if (moment(currentTime) >= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm') && moment(currentTime) <= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur+this.config.MinutesToIqomahDzuhur+this.config.SholatDuration, "m")) {
           this.showCountDownAdzan = false
           this.prepAdzan = false
-          this.prepIqomah = true    
-          // console.log('wait for iqomah')
+          this.prepIqomah = true              
         }
 
-        if (moment(currentTime) > (moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm')).add(this.config.MinutesToIqomahDzuhur, 'm')+10) {       
-          // console.log('waktu mundur iqomah')   
+        //start to sholat
+        if (moment(currentTime) > (moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm')).add(this.config.MinutesToIqomahDzuhur, 'm')) {       
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = false
@@ -356,8 +367,8 @@ export default {
           this.currentSlide = "xx"
           this.autoplay = false
         }
-        
-      } else if (currentTime > moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm').subtract(this.config.MinutesToAdzanAshar,"m") && currentTime < moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm').add(this.config.MinutesToIqomahAshar+11, "m")) {
+       
+      } else if (currentTime > moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm').subtract(this.config.MinutesToAdzanAshar,"m") && currentTime < moment(this.prayTimeAll.asr).add(this.config.AdjustAshar+this.config.MinutesToIqomahAshar+this.config.SholatDuration, "m")) {
         this.isSelected = true
         distanceToAdzan = moment.utc((moment(this.prayTimeAll.asr, "HH:mm:ss").add(this.config.AdjustAshar, 'm')).diff(moment(currentTime, "HH:mm:ss")))
         distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahAshar, "m")
@@ -376,16 +387,15 @@ export default {
           this.prepAdzan = true;
         }
 
-        // //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm') && moment(currentTime) <= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm').add(this.config.MinutesToIqomahAshar, 'm')) {
+        //start to adzan and waiting to iqomah
+        if (moment(currentTime) >= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm') && moment(currentTime) <= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar+this.config.MinutesToIqomahAshar+this.config.SholatDuration, "m")) {
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = true    
-          // console.log('wait for iqomah')
         }
 
-        if (moment(currentTime) > (moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm')).add(this.config.MinutesToIqomahAshar, 'm')+10) {       
-          // console.log('waktu mundur iqomah')   
+        //start to sholat
+        if (moment(currentTime) > (moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm')).add(this.config.MinutesToIqomahAshar, 'm')) {                 
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = false
@@ -395,7 +405,7 @@ export default {
           this.autoplay = false
         }
 
-      } else if (currentTime > moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm').subtract(this.config.MinutesToAdzanMaghrib,"m") && currentTime < moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm').add(this.config.MinutesToIqomahMaghrib+11, "m")) {
+      } else if (currentTime > moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm').subtract(this.config.MinutesToAdzanMaghrib,"m") && currentTime < moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib+this.config.MinutesToIqomahMaghrib+this.config.SholatDuration, "m")) {
         this.isSelected = true
         distanceToAdzan = moment.utc((moment(this.prayTimeAll.maghrib, "HH:mm:ss").add(this.config.AdjustMaghrib, 'm')).diff(moment(currentTime, "HH:mm:ss")))
         distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahMaghrib, "m")
@@ -414,16 +424,15 @@ export default {
           this.prepAdzan = true;
         }
 
-        // //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm') && moment(currentTime) <= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm').add(this.config.MinutesToIqomahMaghrib, 'm')) {
+        //start to adzan and waiting to iqomah
+        if (moment(currentTime) >= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm') && moment(currentTime) <= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib+this.config.MinutesToIqomahMaghrib+this.config.SholatDuration, "m")) {
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = true    
-          // console.log('wait for iqomah')
         }
 
-        if (moment(currentTime) > (moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm')).add(this.config.MinutesToIqomahMaghrib, 'm')+10) {       
-          // console.log('waktu mundur iqomah')   
+        //start to sholat
+        if (moment(currentTime) > (moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm')).add(this.config.MinutesToIqomahMaghrib, 'm')) {       
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = false
@@ -433,7 +442,7 @@ export default {
           this.autoplay = false
         }
 
-      } else if (currentTime > moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm').subtract(this.config.MinutesToAdzanIsya,"m") && currentTime < moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm').add(this.config.MinutesToIqomahIsya+11, "m")) {
+      } else if (currentTime > moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm').subtract(this.config.MinutesToAdzanIsya,"m") && currentTime < moment(this.prayTimeAll.isha).add(this.config.AdjustIsya+this.config.MinutesToIqomahIsya+this.config.SholatDuration, "m")) {
         this.isSelected = true
         distanceToAdzan = moment.utc((moment(this.prayTimeAll.isha, "HH:mm:ss").add(this.config.AdjustIsya, 'm')).diff(moment(currentTime, "HH:mm:ss")))
         distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahIsya, "m")
@@ -447,21 +456,19 @@ export default {
 
         //waiting to adzan
         if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
-          // console.log('countdown to adzan')
           this.showCountDownAdzan = false
           this.prepAdzan = true;
         }
 
         // //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm') && moment(currentTime) <= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm').add(this.config.MinutesToIqomahIsya, 'm')) {
+        if (moment(currentTime) >= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm') && moment(currentTime) <= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya+this.config.MinutesToIqomahIsya+this.config.SholatDuration, "m")) {
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = true    
-          // console.log('wait for iqomah')
         }
 
-        if (moment(currentTime) > (moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm')).add(this.config.MinutesToIqomahIsya, 'm')+10) {       
-          // console.log('waktu mundur iqomah')   
+        //start to sholat
+        if (moment(currentTime) > (moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm')).add(this.config.MinutesToIqomahIsya, 'm')) {       
           this.showCountDownAdzan = false
           this.prepAdzan = false
           this.prepIqomah = false
@@ -474,11 +481,15 @@ export default {
       } 
       else{
         this.showCountDownAdzan = false
-        this.sholat = false
         this.activeLabel = ''       
-        this.autoplay = 10000 
-        this.currentSlide = '01'
-      }      
+        this.autoplay = this.config.IntervalSlide 
+
+        if (this.sholat) {          
+          location.reload()
+          this.currentSlide = "01"
+          this.sholat = false
+        }
+      }  
     },
 
     async getSlides() {
@@ -559,11 +570,8 @@ export default {
           break;
       }
 
-      // console.log(day, "-", date, "-", month, "-", year);
       let today = day + ", " + date + " " + month + " " + year;
-
       this.today = today;
-
     },
 
     async getTodayHijrah() {
@@ -638,9 +646,7 @@ export default {
       }
 
       let today = day + ", " + date + " " + month + " " + year;
-
       this.todayHijrah = today;
-
       // console.log('hijrahDate', day,'-', date,'-',month,'-', year)
     },
 
@@ -690,6 +696,7 @@ export default {
 </script>
 
 <style scoped>
+
 
 .card-prayer {
   width: 100%;
@@ -750,7 +757,7 @@ export default {
 
 .center-block {
   position: absolute;
-  top:45%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;

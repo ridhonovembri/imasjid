@@ -3,6 +3,7 @@
     <marquee>{{ text }}</marquee>
   </div>
 </template>
+
 <script>
 import Get from '@/api/http-get'
 
@@ -34,4 +35,13 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+
+.box-ribbon-wrapper 
+{
+  margin: 0 auto;
+  position: relative;
+
+}
+
+</style>

@@ -2,20 +2,20 @@
   <!-- <div class="text-h1 text-yellow-5 text-weight-bold">{{ hour }}. {{ second }}</div>   -->
   <div>
     <div class="card-header" >
-      <div style="font-size: 48px;">Menanti Adzan {{ prayerName }}</div>
-      <div style="font-size: 26px;" v-html="text"></div>
+      <div style="font-size: 60px;">Menanti Adzan {{ prayerName }}</div>
+      <div style="font-size: 32px;" v-html="text"></div>
     </div>
 
     <div class="row">
       <q-card class="card-time">
         <q-item>
           <q-item-section >
-            <span style="font-size: 100px;">{{ hour }}</span>
+            <span style="font-size: 120px;">{{ hour }}</span>
             <span style="font-size: 36px;">Menit</span>
           </q-item-section>
 
           <q-item-section>
-            <span style="font-size: 100px;">{{ second }}</span>
+            <span style="font-size: 120px;">{{ second }}</span>
             <span style="font-size: 36px;">Detik</span>
           </q-item-section>
         </q-item>

@@ -178,7 +178,21 @@
           v-model="masjidConfig.TextBeforeIqomah"
           label="Sebelum Iqomah"
         />
-
+      </div>
+      <u><h7 style="margin: 15px">Interval</h7></u>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.IntervalSlide"
+          type="number"
+          label="Interval Slide (Milidetik)"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.IntervalHadist"
+          type="number"
+          label="Interval Hadist (Milidetik)"
+        />
       </div>
       <u><h7 style="margin: 15px">Teks dan Background Image Sedang Sholat</h7></u>
       <div class="q-gutter-xs row" style="margin: 10px">
@@ -202,6 +216,17 @@
           v-model="masjidConfig.IconDuringSholat"
           label="Icon"
         />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.SoundLocation"
+          label="Suara"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.SholatDuration"
+          type="number"
+          label="Durasi Sholat(Menit)"
+        />
       </div>
       <q-btn
         color="white"
@@ -223,37 +248,41 @@ export default {
     return {
       masjidConfig: {
         Id: "",
-        MinutesToAdzanShubuh: "",
-        MinutesToAdzanDzuhur: "",
-        MinutesToAdzanAshar: "",
-        MinutesToAdzanMaghrib: "",
-        MinutesToAdzanIsya: "",
-        MinutesToIqomahShubuh: "",
-        MinutesToIqomahDzuhur: "",
-        MinutesToIqomahAshar: "",
-        MinutesToIqomahMaghrib: "",
-        MinutesToIqomahIsya: "",
-        MinutesToAdzanPrep: "",
-        LabelShubuh:'',
-        LabelSyuruq:'',
-        LabelDzuhur:'',
-        LabelAshar:'',
-        LabelMaghrib:'',
-        LabelIsya:'',
-        AdjustShubuh:'',
-        AdjustSyuruq:'',
-        AdjustDzuhur:'',
-        AdjustAshar:'',
-        AdjustMaghrib:'',
-        AdjustIsya:'',
+        MinutesToAdzanShubuh: 0,
+        MinutesToAdzanDzuhur: 0,
+        MinutesToAdzanAshar: 0,
+        MinutesToAdzanMaghrib: 0,
+        MinutesToAdzanIsya: 0,
+        MinutesToIqomahShubuh: 0,
+        MinutesToIqomahDzuhur: 0,
+        MinutesToIqomahAshar: 0,
+        MinutesToIqomahMaghrib: 0,
+        MinutesToIqomahIsya: 0,
+        MinutesToAdzanPrep: 0,
+        LabelShubuh: '',
+        LabelSyuruq: '',
+        LabelDzuhur: '',
+        LabelAshar:' ',
+        LabelMaghrib: '',
+        LabelIsya: '',
+        AdjustShubuh: 0,
+        AdjustSyuruq: 0,
+        AdjustDzuhur: 0,
+        AdjustAshar: 0,
+        AdjustMaghrib: 0,
+        AdjustIsya: '',
         Latitude: 0,
         Longitude: 0,
-        TextBeforeAdzan:'',
-        TextBeforeIqomah:'',
-        TextDuringSholat1:'',
-        TextDuringSholat2:'',
-        BgImgSholat:'',
-        IconDuringSholat:''
+        TextBeforeAdzan: '',
+        TextBeforeIqomah: '',
+        TextDuringSholat1: '',
+        TextDuringSholat2: '',
+        BgImgSholat: '',
+        IconDuringSholat: '',
+        IntervalSlide: 0,
+        IntervalHadist: 0,
+        SholatDuration: 0,
+        SoundLocation:''
       },
     };
   },

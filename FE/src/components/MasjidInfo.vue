@@ -43,7 +43,7 @@ export default {
 }
 
 .address {
-  font-size: 15px;
+  font-size: 20px;
   padding-top: 5px;  
   color: #fff1e6;
   letter-spacing: 2px;
@@ -52,7 +52,7 @@ export default {
 }
 
 .date {
-  font-size: 15px;
+  font-size: 18px;
   padding-top: 2px;  
   color: #fff1e6;
   letter-spacing: 2px;

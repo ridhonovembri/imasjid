@@ -1,5 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 module.exports = defineConfig({
@@ -12,6 +13,10 @@ module.exports = defineConfig({
       importStrategy: 'kebab',
       rtlSupport: false
     }
+  },
+
+  configureWebpack: {
+    plugins: [new MiniCssExtractPlugin()],
   },
 
   devServer: {

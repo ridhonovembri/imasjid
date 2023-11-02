@@ -23,7 +23,7 @@
         </template>
   
         <template #body-cell-HadistContent="props">
-          <q-td :props="props" dense>
+          <q-td :props="props" dense auto-width>
             <a href="#" @click="editRow(props)">{{ props.value }}</a>
           </q-td>
         </template>
