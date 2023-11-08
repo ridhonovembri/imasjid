@@ -1,6 +1,6 @@
 <template>
-  <span class="text-h1 hour-minute"> {{ hour }}.</span>.
-  <span class="text-h3 second">{{ second }}</span>
+  <span class="hour-minute"> {{ hour }}.</span>.
+  <span class="second">{{ second }}</span>
 </template>
 <script>
 export default {
@@ -21,6 +21,7 @@ export default {
   font-family: "montserratmedium";
   font-weight: 700;
   letter-spacing: 3px;
+  font-size: 110px;
 }
 
 .second {
@@ -31,5 +32,6 @@ export default {
   font-family: "montserratmedium";
   font-weight: 700;
   letter-spacing: 3px;
+  font-size: 56px;
 }
 </style>

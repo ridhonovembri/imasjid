@@ -228,6 +228,57 @@
           label="Durasi Sholat(Menit)"
         />
       </div>
+      <u><h7 style="margin: 15px">Ukuran Font</h7></u>
+      <div class="q-gutter-xs row" style="margin: 10px">
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizeMarquee"
+          type="number"
+          label="Marquee"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizeHadist"
+          type="number"
+          label="Hadist"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizeMasjidname"
+          type="number"
+          label="Nama Masjid"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizeMasjidaddress"
+          type="number"
+          label="Alamat Masjid"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizeDate"
+          type="number"
+          label="Tanggal"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizeClock"
+          type="number"
+          label="Jam"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizePrayertime"
+          type="number"
+          label="Jam Sholat"
+        />
+        <q-input
+          standout="bg-teal text-white"
+          v-model="masjidConfig.FontSizePrayerlabel"
+          type="number"
+          label="Label Sholat"
+        />
+      </div>
       <q-btn
         color="white"
         text-color="black"
@@ -282,7 +333,15 @@ export default {
         IntervalSlide: 0,
         IntervalHadist: 0,
         SholatDuration: 0,
-        SoundLocation:''
+        SoundLocation:'',
+        FontSizeMarquee: 0,
+        FontSizeHadist: 0,
+        FontSizeMasjidname: 0,
+        FontSizeMasjidaddress: 0,
+        FontSizeDate: 0,
+        FontSizeClock: 0,
+        FontSizePrayertime: 0,
+        FontSizePrayerlabel: 0,
       },
     };
   },

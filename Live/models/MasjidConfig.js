@@ -147,6 +147,38 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING,
           field: 'SOUND_LOCATION'
         },
+        FontSizeMarquee: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_MARQUEE'
+        },
+        FontSizeHadist: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_HADIST'
+        },
+        FontSizeMasjidname: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_MASJIDNAME'
+        },
+        FontSizeMasjidaddress: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_MASJIDADDRESS'
+        },
+        FontSizeDate: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_DATE'
+        },
+        FontSizeClock: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_CLOCK'
+        },
+        FontSizePrayertime: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_PRAYERTIME'
+        },
+        FontSizePrayerlabel: {
+          type: Sequelize.INTEGER,
+          field: 'FONTSIZE_PRAYERLABEL'
+        },
         CreatedBy: {
           type: Sequelize.STRING,
           field: 'CREATED_BY'

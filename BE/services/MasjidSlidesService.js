@@ -3,7 +3,7 @@ const db = require("../models");
 exports.findAll = async () => {
   try {
     const result = await db.masjidslides.findAll({
-      orderBy: [["ImgName", "ASC"]],
+      orderBy: [["Sequence", "ASC"]],
     });
 
     // console.log("result", result);
@@ -40,10 +40,8 @@ exports.findByName = async (name) => {
 exports.getSlides = async () => {
   try {
     const result = await db.masjidslides.findAll({
-      orderBy: [["ImgName", "ASC"]],
+      order: [["Sequence", "ASC"]],
     });
-
-    // console.log("result", result);
 
     return result;
   } catch (e) {

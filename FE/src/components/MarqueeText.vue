@@ -1,6 +1,6 @@
 <template>
-  <div class="text-h4 text-grey-1">
-    <marquee>{{ text }}</marquee>
+  <div class="text-grey-1" :style="{'font-size': fontSize}">
+    <marquee>{{ text }} </marquee>
   </div>
 </template>
 
@@ -8,13 +8,11 @@
 import Get from '@/api/http-get'
 
 export default {
-  // props: ["MarqueeText"],
+  props: ["fontSize"],
   data() {
     return {
-      // marquees: [{
-      //   MarqueeText:''
-      // }],
-      text:''
+      text:'',
+      fontSize: this.fontSize>0? this.fontSize + 'px': '36px'
     };
   },
   async mounted() {
@@ -36,12 +34,4 @@ export default {
 };
 </script>
 <style scoped>
-
-.box-ribbon-wrapper 
-{
-  margin: 0 auto;
-  position: relative;
-
-}
-
 </style>

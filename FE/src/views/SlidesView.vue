@@ -81,6 +81,12 @@
               <q-list>
                 <q-item>
                   <q-item-section>
+                    <q-item-label class="q-pb-xs">Urutan</q-item-label>
+                    <q-input dense outlined v-model="slides.Sequence" />
+                  </q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section>
                     <q-item-label class="q-pb-xs">Image Name</q-item-label>
                     <q-input dense outlined v-model="slides.ImgName" />
                   </q-item-section>
@@ -168,6 +174,13 @@
     data() {
       return {
         columns: [
+        {
+            name: "Sequence",
+            label: "Urutan",
+            field: "Sequence",
+            align: "left",
+            sortable: true,
+          },
           {
             name: "ImgName",
             label: "Image Name",
@@ -190,6 +203,7 @@
         ],
         slides : {
           Id: '',
+          Sequence: 0,
           ImgName: '',
           ImgDesc: '',
           ImgSource: '',
@@ -220,6 +234,7 @@
       editRow(props) {
         if (props) {
           this.slides.Id = props.row.Id;
+          this.slides.Sequence = props.row.Sequence;
           this.slides.ImgName = props.row.ImgName;
           this.slides.ImgDesc = props.row.ImgDesc;
           this.slides.ImgSource = props.row.ImgSource;
@@ -279,6 +294,7 @@
           });
         } else {
           let data = {
+            Sequence: this.slides.Sequence,
             ImgName: this.slides.ImgName,
             ImgDesc: this.slides.ImgDesc,
             ImgSource: this.slides.ImgSource,
@@ -311,6 +327,7 @@
         // console.log("add");
         // this.$router.push({ name: "slidesForm" });
         this.slides.Id = "";
+        this.slides.Sequence = "";
         this.slides.ImgName = "";
         this.slides.ImgDesc = "";
         this.slides.ImgSource = "";

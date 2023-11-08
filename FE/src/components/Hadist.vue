@@ -1,7 +1,9 @@
 <template>
   <div class="text-grey-1 block" v-for="hadist in hadists" :key="hadist.Id">
-    <h3>{{ hadist.HadistContent }}</h3>
-    <h4>{{ hadist.HadistFrom }}</h4>
+    <!-- <h3>{{ hadist.HadistContent }}</h3>
+    <h4>{{ hadist.HadistFrom }}</h4> -->
+    <div style="font-size: 48px;">{{ hadist.HadistContent }}</div>
+    <div style="font-size: 36px;">{{ hadist.HadistFrom }}</div>
   </div>
 </template>
 <script>

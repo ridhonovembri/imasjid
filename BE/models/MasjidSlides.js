@@ -7,6 +7,10 @@ module.exports = (sequelize, Sequelize) => {
           primaryKey: true,
           field: 'ID'
         },
+        Sequence: {
+          type: Sequelize.INTEGER,
+          field: 'SEQUENCE'
+        },        
         ImgName: {
           type: Sequelize.STRING,
           field: 'IMG_NAME'

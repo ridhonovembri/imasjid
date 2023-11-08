@@ -1,6 +1,6 @@
 <template>
-  <div class="text-h4 prayer-name">{{ label }}</div>
-  <div class="text-h1 prayer-time">{{ time }}</div>
+  <div class="prayer-name">{{ label }}</div>
+  <div class="prayer-time">{{ time }}</div>
 </template>
 
 <script>
@@ -26,6 +26,7 @@ export default {
   font-family: 'montserratmedium';
   font-weight: 700;
   letter-spacing: 3px;
+  font-size: 42px;
 }
 
 .prayer-time {  
@@ -37,6 +38,7 @@ export default {
   font-family: 'montserratmedium';
   font-weight: 700;
   letter-spacing: 3px;
+  font-size: 96px;
 }
 
 

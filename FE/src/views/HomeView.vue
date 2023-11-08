@@ -3,11 +3,10 @@
     <q-card>
       <q-carousel
         v-model="currentSlide"
-        animated
         infinite
         padding
         continue        
-        transition-duration="2000"
+        transition-duration="1000"
         style="height: 100vh"
         :autoplay="autoplay"
       >
@@ -49,7 +48,7 @@
   </div>
 
   <div class="q-pa-xs marquee" v-show="!sholat">
-    <MarqueeText/>
+    <MarqueeText :fontSize="config.FontSizeMarquee"/>
   </div>
 
   <!-- <div class="row q-gutter-sm prayer-time"> -->
@@ -100,7 +99,6 @@ import PrepIqomah from "@/components/PrepIqomah.vue";
 import Sholat from '@/components/Sholat.vue'
 import MarqueeText from "@/components/MarqueeText.vue";
 import CountDownAdzan from '@/components/CountDownAdzan.vue'
-import CountDownIqomah from '@/components/CountDownIqomah.vue'
 
 import Get from "@/api/http-get";
 import HijrahDate from "hijrah-date";
@@ -123,11 +121,10 @@ export default {
     PrepIqomah,
     Sholat,
     CountDownAdzan,
-    CountDownIqomah
   },
   data() {
     return {
-      currentSlide: "01",
+      currentSlide: "Img01",
       clockHour: "",
       clockSecond: "",
       countDownAdzanHour: "",
@@ -148,6 +145,7 @@ export default {
       isSelected: false,
       slides: {
         Id: "",
+        Sequence: 0,
         ImgName: "",
         ImgDesc: "",
         ImgSource: "",
@@ -201,7 +199,8 @@ export default {
         IntervalSlide: 0,
         IntervalHadist: 0,
         SholatDuration: 0,
-        SoundLocation: ''
+        SoundLocation: '',
+        FontSizeMarquee: 0
       },
     };
   },
@@ -211,8 +210,8 @@ export default {
   async created(){
     await this.getMasjidInfo();
     await this.getMasjidConfig();
-    this.getPrayerTime();
-    this.getSlides();
+    await this.getPrayerTime();
+    await this.getSlides();
   },
   mounted() {
     this.getToday();
@@ -267,8 +266,8 @@ export default {
       this.config.IntervalHadist = result.IntervalHadist
       this.config.SholatDuration = result.SholatDuration
       this.config.SoundLocation = result.SoundLocation
-      
-      
+      this.config.FontSizeMarquee = result.FontSizeMarquee
+            
       this.autoplay = result.IntervalSlide
       // console.log('this.config', this.config)
 
@@ -278,7 +277,7 @@ export default {
       let today = new Date();
 
       //testing
-      // let currentTime = moment(today).add(657, "m");
+      // let currentTime = moment(today).subtract(90, "m");
     
 
       //actual
@@ -486,7 +485,7 @@ export default {
 
         if (this.sholat) {          
           location.reload()
-          this.currentSlide = "01"
+          this.currentSlide = "Img01"
           this.sholat = false
         }
       }  
@@ -494,6 +493,7 @@ export default {
 
     async getSlides() {
       this.slides = (await Get.getSlides()).data;
+      // console.log('this.slides', this.slides)
     },
 
     async getMasjidInfo() {

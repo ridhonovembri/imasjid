@@ -1,5 +1,5 @@
 <template>
-  <div class="text-h3 text-weight-bold">{{ label }} - {{ hour }}.<span class="text-h4">{{ second }}</span></div>  
+  <div class="text-weight-bold" style="font-size: 54px;">{{ label }} - {{ hour }}.<span style="font-size: 40px;">{{ second }}</span></div>  
 </template>
 <script>
 export default {
