@@ -32,12 +32,14 @@ Aplikasi ini 100% GRATIS untuk digunakan, disalin, dimodifikasi, didistribusikan
 
 ***Installation***
 -
-* Download Live folder to Server/Local Drive
-* Download 
-* Backend :
-    -   NodeJs  [https://nodejs.org/en/download](https://nodejs.org/en/download)
-    -   ExpressJS  [https://expressjs.com/](https://expressjs.com/)
-    -   Sequelize ORM  [https://sequelize.org/](https://sequelize.org/)
-* Frontend
-    -   VueJs 3  [https://vuejs.org/](https://vuejs.org/)
-    -   Quasar Component  [https://quasar.dev/](https://quasar.dev/)
+* Install NodeJs - [https://nodejs.org/en/download](https://nodejs.org/en/download)
+* Download Live folder
+* Extract zip file
+* Go to root folder and execute command 'npm install'
+* Run application by execute 'node index.js' and web server will run 'App listening on port 3000'
+* Open browser and open link http://localhost:3000 - for dashboard http://localthost:3000/dashboard
+* Install applications as windows services using NSSM as below statement (execute on root folder) :
+    - nssm install imasjid-service "C:\Program Files\nodejs\node.exe"
+    - nssm set imasjid-service AppDirectory "D:\imasjid"
+    - nssm set imasjid-service AppParameters index.js
+    - nssm start imasjid-service
