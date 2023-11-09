@@ -3,10 +3,7 @@
     <q-card>
       <q-carousel
         v-model="currentSlide"
-        infinite
-        padding
-        continue        
-        transition-duration="1000"
+        infinite     
         style="height: 100vh"
         :autoplay="autoplay"
       >
@@ -15,7 +12,8 @@
           :key="slide.ImgName"
           :name="slide.ImgName"
           :img-src="slide.ImgSource"
-        >
+        >    
+
           <MasjidInfo v-show="!sholat"
             :MasjidName="masjid.MasjidName"
             :MasjidAddress="masjid.MasjidAddress"
@@ -36,6 +34,7 @@
               <CountDownAdzan v-if="showCountDownAdzan" :hour="countDownAdzanHour" :second="countDownAdzanSecond" :label="activeLabel"/>
             </q-card>
           </div>
+
         </q-carousel-slide>
       </q-carousel>
     </q-card>
@@ -204,18 +203,17 @@ export default {
       },
     };
   },
-  async unmounted(){
 
-  },
   async created(){
-    await this.getMasjidInfo();
     await this.getMasjidConfig();
+    await this.getMasjidInfo();
     await this.getPrayerTime();
     await this.getSlides();
-  },
-  mounted() {
     this.getToday();
     this.getTodayHijrah();
+  },
+
+  mounted() {
     setInterval(() => this.getClock(), 1000);
   },
 
@@ -272,12 +270,61 @@ export default {
       // console.log('this.config', this.config)
 
     },
+    
+    async getMasjidInfo() {
+      this.masjid = (await Get.masjidInfo()).data;
+    },
+
+    async getSlides() {
+      this.slides = (await Get.getSlides()).data;
+      // console.log('this.slides', this.slides)
+    },
+
+    async getPrayerTime() {
+      const today = new Date();
+      const latitude = parseFloat(this.config.Latitude)
+      const longitude = parseFloat(this.config.Longitude)
+
+      // console.log('nilai latitude', this.config.Latitude + ',' + this.config.Longitude)
+
+      let params = CalculationMethod.Singapore();
+
+      // if (latitude > 0 and lo)
+      const coordinates = new Coordinates(
+        // 0.406393, 101.845164
+        // 1.117, 104.04
+        // this.config.Latitude, this.config.Longitude
+        latitude, longitude
+      );
+
+      // console.log('coordinates', coordinates)
+
+      const prayerTimes = new PrayerTimes(coordinates, today, params);
+      // console.log("prayerTimes", prayerTimes);
+      // console.log('adjust Shubuh', this.config.AdjustShubuh)
+
+      this.prayerTime.Shubuh = moment(prayerTimes.fajr).add(this.config.AdjustShubuh, 'm').format("HH:mm");
+      this.prayerTime.Syuruq = moment(prayerTimes.sunrise).add(this.config.AdjustSyuruq, 'm').format("HH:mm");
+      this.prayerTime.Dzuhur = moment(prayerTimes.dhuhr).add(this.config.AdjustDzuhur, 'm').format("HH:mm");
+      this.prayerTime.Ashar = moment(prayerTimes.asr).add(this.config.AdjustAshar, 'm').format("HH:mm");
+      this.prayerTime.Maghrib = moment(prayerTimes.maghrib).add(this.config.AdjustMaghrib, 'm').format("HH:mm");
+      this.prayerTime.Isya = moment(prayerTimes.isha).add(this.config.AdjustIsya, 'm').format("HH:mm");
+      this.clock = moment(new Date()).format("HH:mm:ss");
+      this.prayTimeAll = prayerTimes;
+
+      // console.log("Shubuh", this.prayerTimes.Shubuh);
+      // console.log("Dzuhur", this.prayerTimes.Dzuhur);
+      // console.log("Ashar", this.prayerTimes.Ashar);
+      // console.log("Maghrib", this.prayerTimes.Maghrib);
+      // console.log("Isya", this.prayerTimes.Isya);
+      // console.log("Syuruq", this.prayerTimes.Syuruq);
+    },
 
     async getClock() {
       let today = new Date();
 
       //testing
-      // let currentTime = moment(today).subtract(90, "m");
+      // let currentTime = moment(today).subtract(992, "m");
     
 
       //actual
@@ -491,15 +538,6 @@ export default {
       }  
     },
 
-    async getSlides() {
-      this.slides = (await Get.getSlides()).data;
-      // console.log('this.slides', this.slides)
-    },
-
-    async getMasjidInfo() {
-      this.masjid = (await Get.masjidInfo()).data;
-    },
-
     async getToday() {
       const now = new Date();
       let day = now.getDay();
@@ -650,54 +688,12 @@ export default {
       // console.log('hijrahDate', day,'-', date,'-',month,'-', year)
     },
 
-    async getPrayerTime() {
-      const today = new Date();
-      const latitude = parseFloat(this.config.Latitude)
-      const longitude = parseFloat(this.config.Longitude)
-
-      // console.log('nilai latitude', this.config.Latitude + ',' + this.config.Longitude)
-
-      let params = CalculationMethod.Singapore();
-
-      // if (latitude > 0 and lo)
-      const coordinates = new Coordinates(
-        // 0.406393, 101.845164
-        // 1.117, 104.04
-        // this.config.Latitude, this.config.Longitude
-        latitude, longitude
-      );
-
-      // console.log('coordinates', coordinates)
-
-      const prayerTimes = new PrayerTimes(coordinates, today, params);
-      // console.log("prayerTimes", prayerTimes);
-      // console.log('adjust Shubuh', this.config.AdjustShubuh)
-
-
-
-      this.prayerTime.Shubuh = moment(prayerTimes.fajr).add(this.config.AdjustShubuh, 'm').format("HH:mm");
-      this.prayerTime.Syuruq = moment(prayerTimes.sunrise).add(this.config.AdjustSyuruq, 'm').format("HH:mm");
-      this.prayerTime.Dzuhur = moment(prayerTimes.dhuhr).add(this.config.AdjustDzuhur, 'm').format("HH:mm");
-      this.prayerTime.Ashar = moment(prayerTimes.asr).add(this.config.AdjustAshar, 'm').format("HH:mm");
-      this.prayerTime.Maghrib = moment(prayerTimes.maghrib).add(this.config.AdjustMaghrib, 'm').format("HH:mm");
-      this.prayerTime.Isya = moment(prayerTimes.isha).add(this.config.AdjustIsya, 'm').format("HH:mm");
-      this.clock = moment(new Date()).format("HH:mm:ss");
-      this.prayTimeAll = prayerTimes;
-
-      // console.log("Shubuh", this.prayerTimes.Shubuh);
-      // console.log("Dzuhur", this.prayerTimes.Dzuhur);
-      // console.log("Ashar", this.prayerTimes.Ashar);
-      // console.log("Maghrib", this.prayerTimes.Maghrib);
-      // console.log("Isya", this.prayerTimes.Isya);
-      // console.log("Syuruq", this.prayerTimes.Syuruq);
-    },
+    
   },
 };
 </script>
 
 <style scoped>
-
-
 .card-prayer {
   width: 100%;
   max-width: 16%;
