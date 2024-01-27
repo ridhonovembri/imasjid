@@ -1,0 +1,17 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "./VMasjid.db",
+    "logging" : false
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": "./VMasjid.db",
+    "logging" : false
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "./VMasjid.db",
+    "logging" : false
+  }
+}
