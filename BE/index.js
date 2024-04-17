@@ -4,7 +4,7 @@ let cors = require("cors")
 let appRoutes = require('./routes/AppRoutes')
 
 var corsOptions = {
-  origin: "http://localhost:8080",
+  origin: "*",
 };
 
 let app = express();
@@ -23,7 +23,7 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 // let port = process.env.PORT || 3001;
-let port = 3000;
+let port = 3001;
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

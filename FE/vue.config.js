@@ -23,7 +23,8 @@ module.exports = defineConfig({
     // outputDir: path.resolve(__dirname,'../BE/public'),
     proxy:{
       '^/api':{
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3001'
+        // target: 'https://imasjid-cloud-be.vercel.app'
       }
     }
   }

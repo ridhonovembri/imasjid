@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="card" v-bind:style="{ backgroundImage: 'url(' + bgSrc + ')'}" >
-    <!-- <div class="card"> -->
       <div v-html="text1"></div>
       <img :src="imgSrc" width="180" height="180"/>
       <div v-html="text2"></div>
@@ -36,14 +35,13 @@ export default {
 <style scoped>
 .card{
   max-width: 100%;
-  height: 75vh;
+  height: 70vh;
   /* font-size: 42px; */
   font-size: v-bind('fontSizeText');
   font-family: "montserratmedium";
   text-align: center;
-  color: #fff1e6;
-  /* background-color: #124265; */
-  /* background-image: 'url(' + bgSrc + ')'; */
+  color: #124265;
+  background-image: 'url(' + bgSrc + ')';
 }
 </style>
 

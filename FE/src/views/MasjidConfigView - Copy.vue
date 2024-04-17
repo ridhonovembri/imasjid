@@ -220,8 +220,9 @@
           label="Interval Hadist (Milidetik)"
         />
       </div>
-      <u><h7 style="margin: 15px">Misc</h7></u>
-      <div class="q-gutter-xs row" style="margin: 10px">       
+      <!-- <u><h7 style="margin: 15px">Teks dan Background Image Sedang Sholat</h7></u>
+      <div class="q-gutter-xs row" style="margin: 10px">
+       
         <q-input
           standout="bg-teal text-white"
           v-model="masjidConfig.BgImgSholat"
@@ -237,7 +238,7 @@
           v-model="masjidConfig.SoundLocation"
           label="Suara"
         />
-      </div>
+      </div> -->
       <u><h7 style="margin: 15px">Ukuran Font</h7></u>
       <div class="q-gutter-xs row" style="margin: 10px">
         <q-input
@@ -367,8 +368,8 @@ export default {
   },
   methods: {
     async updatemasjidConfig() {
-      // console.log("masjidConfig", this.masjidConfig);
-      // console.log("this.masjidConfig.id", this.masjidConfig.Id);
+      console.log("masjidConfig", this.masjidConfig);
+      console.log("this.masjidConfig.id", this.masjidConfig.Id);
       // Update.masjidConfig();
       await Update.masjidConfig(this.masjidConfig.Id, this.masjidConfig).then(
         (res) => {

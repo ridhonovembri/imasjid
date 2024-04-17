@@ -3,18 +3,20 @@
     <q-card>
       <q-carousel
         v-model="currentSlide"
-        infinite     
+        infinite
         style="height: 100vh"
         :autoplay="autoplay"
+        animated
+        transition-duration="800"
       >
         <q-carousel-slide
           v-for="slide in slides"
           :key="slide.ImgName"
           :name="slide.ImgName"
           :img-src="slide.ImgSource"
-        >    
-
-          <MasjidInfo v-show="!sholat"
+        >
+          <MasjidInfo
+            v-show="!sholat"
             :MasjidName="masjid.MasjidName"
             :MasjidAddress="masjid.MasjidAddress"
             :City="masjid.City"
@@ -24,72 +26,157 @@
             :fontSizeMasjidname="config.FontSizeMasjidname"
             :fontSizeMasjidaddress="config.FontSizeMasjidaddress"
             :fontSizeDate="config.FontSizeDate"
-            style="margin-left:10px"
+            style="margin-left: 10px"
           />
 
           <div class="absolute-top-center" v-show="!sholat">
             <q-card class="card-clock">
-              <Clock :hour="clockHour" :second="clockSecond" :fontSizeClockHourMinute="config.FontSizeClockHourMinute" :fontSizeClockSecond="config.FontSizeClockSecond"/>
+              <Clock
+                :hour="clockHour"
+                :second="clockSecond"
+                :fontSizeClockHourMinute="config.FontSizeClockHourMinute"
+                :fontSizeClockSecond="config.FontSizeClockSecond"
+              />
             </q-card>
           </div>
 
-          <div class="absolute-top-right" v-show="!sholat" style="margin:15px">
+          <div class="absolute-top-right" v-show="!sholat" style="margin: 15px">
             <q-card class="card-countdown">
-              <CountDownAdzan v-if="showCountDownAdzan" :minute="countDownAdzanHour" :second="countDownAdzanSecond" :label="activeLabel" :fontSizeLabel="config.FontSizeMasjidname"/>
+              <CountDownAdzan
+                v-if="showCountDownAdzan"
+                :minute="countDownAdzanHour"
+                :second="countDownAdzanSecond"
+                :label="activeLabel"
+                :fontSizeLabel="config.FontSizeMasjidname"
+              />
             </q-card>
           </div>
-
         </q-carousel-slide>
       </q-carousel>
     </q-card>
   </div>
   <div class="q-pa-xs center-block">
-    <PrepAdzan v-if="prepAdzan" :hour="countDownAdzanHour" :second="countDownAdzanSecond" :prayerName="activeLabel" :text="config.TextBeforeAdzan" :fontSizePrayerName="config.FontSizeHadist" :fontSizeText="config.FontSizeMarquee" :fontSizeClock="config.FontSizeClockHourMinute" :fontSizeClockLabel="config.FontSizeClockSecond"/>
-    <PrepIqomah v-else-if="prepIqomah" :hour="countDownIqomahHour" :second="countDownIqomahSecond" :text="config.TextBeforeIqomah" :fontSizePrayerName="config.FontSizeHadist" :fontSizeText="config.FontSizeMarquee" :fontSizeClock="config.FontSizeClockHourMinute" :fontSizeClockLabel="config.FontSizeClockSecond"/>
-    <Sholat v-else-if="sholat" :text1="config.TextDuringSholat1" :text2="config.TextDuringSholat2" :imgSrc="config.IconDuringSholat" :bgSrc="config.BgImgSholat" :fontSizeText="config.FontSizeHadist"/>
-    <Hadist v-else :fontSizeHadist="config.FontSizeHadist"/>
+    <PrepAdzan
+      v-if="prepAdzan"
+      :hour="countDownAdzanHour"
+      :second="countDownAdzanSecond"
+      :prayerName="activeLabel"
+      :text="config.TextBeforeAdzan"
+      :fontSizePrayerName="config.FontSizeHadist"
+      :fontSizeText="config.FontSizeMarquee"
+      :fontSizeClock="config.FontSizeClockHourMinute"
+      :fontSizeClockLabel="config.FontSizeClockSecond"
+    />
+    <PrepIqomah
+      v-else-if="prepIqomah"
+      :hour="countDownIqomahHour"
+      :second="countDownIqomahSecond"
+      :text="config.TextBeforeIqomah"
+      :fontSizePrayerName="config.FontSizeHadist"
+      :fontSizeText="config.FontSizeMarquee"
+      :fontSizeClock="config.FontSizeClockHourMinute"
+      :fontSizeClockLabel="config.FontSizeClockSecond"
+    />
+    <Sholat
+      v-else-if="sholat"
+      :text1="config.TextDuringSholat1"
+      :text2="config.TextDuringSholat2"
+      :imgSrc="config.IconDuringSholat"
+      :bgSrc="config.BgImgSholat"
+      :fontSizeText="config.FontSizeHadist"
+    />
+    <Hadist v-else :fontSizeHadist="config.FontSizeHadist" />
   </div>
 
-
   <div class="q-pa-xs marquee" v-show="!sholat">
-    <MarqueeText :fontSizeMarquee="config.FontSizeMarquee"/>
+    <MarqueeText :fontSizeMarquee="config.FontSizeMarquee" />
   </div>
 
   <!-- <div class="row q-gutter-sm prayer-time"> -->
   <div class="row q-gutter-sm prayer-time" v-show="!sholat">
-    <q-card :class="activeLabel=='Shubuh' ? 'selected' : 'card-prayer'">
-      <PrayerShubuh :time="prayerTime.Shubuh" :label="config.LabelShubuh" :isSelected="isSelected" :fontSizePrayerlabel="config.FontSizePrayerlabel" :fontSizePrayertime="config.FontSizePrayertime"/>
+    <q-card :class="activeLabel == 'Shubuh' ? 'selected' : 'card-prayer'">
+      <PrayerShubuh
+        :time="prayerTime.Shubuh"
+        :label="config.LabelShubuh"
+        :isSelected="isSelected"
+        :fontSizePrayerlabel="config.FontSizePrayerlabel"
+        :fontSizePrayertime="config.FontSizePrayertime"
+      />
     </q-card>
-    <q-card :class="activeLabel=='Syuruq' ? 'selected' : 'card-prayer'">
-      <PrayerSyuruq :time="prayerTime.Syuruq" :label="config.LabelSyuruq" :isSelected="isSelected" :fontSizePrayerlabel="config.FontSizePrayerlabel" :fontSizePrayertime="config.FontSizePrayertime"/>
+    <q-card :class="activeLabel == 'Syuruq' ? 'selected' : 'card-prayer'">
+      <PrayerSyuruq
+        :time="prayerTime.Syuruq"
+        :label="config.LabelSyuruq"
+        :isSelected="isSelected"
+        :fontSizePrayerlabel="config.FontSizePrayerlabel"
+        :fontSizePrayertime="config.FontSizePrayertime"
+      />
     </q-card>
-    <q-card :class="activeLabel=='Dzuhur' ? 'selected' : 'card-prayer'">
-      <PrayerDzuhur :time="prayerTime.Dzuhur" :label="config.LabelDzuhur" :isSelected="isSelected" :fontSizePrayerlabel="config.FontSizePrayerlabel" :fontSizePrayertime="config.FontSizePrayertime"/>
+    <q-card :class="activeLabel == 'Dzuhur' ? 'selected' : 'card-prayer'">
+      <PrayerDzuhur
+        :time="prayerTime.Dzuhur"
+        :label="config.LabelDzuhur"
+        :isSelected="isSelected"
+        :fontSizePrayerlabel="config.FontSizePrayerlabel"
+        :fontSizePrayertime="config.FontSizePrayertime"
+      />
     </q-card>
-    <q-card :class="activeLabel=='Ashar' ? 'selected' : 'card-prayer'">
-      <PrayerAshar :time="prayerTime.Ashar" :label="config.LabelAshar" :isSelected="isSelected" :fontSizePrayerlabel="config.FontSizePrayerlabel" :fontSizePrayertime="config.FontSizePrayertime"/>
+    <q-card :class="activeLabel == 'Ashar' ? 'selected' : 'card-prayer'">
+      <PrayerAshar
+        :time="prayerTime.Ashar"
+        :label="config.LabelAshar"
+        :isSelected="isSelected"
+        :fontSizePrayerlabel="config.FontSizePrayerlabel"
+        :fontSizePrayertime="config.FontSizePrayertime"
+      />
     </q-card>
-    <q-card :class="activeLabel=='Maghrib' ? 'selected' : 'card-prayer'">
-      <PrayerMaghrib :time="prayerTime.Maghrib" :label="config.LabelMaghrib" :isSelected="isSelected" :fontSizePrayerlabel="config.FontSizePrayerlabel" :fontSizePrayertime="config.FontSizePrayertime"/>
+    <q-card :class="activeLabel == 'Maghrib' ? 'selected' : 'card-prayer'">
+      <PrayerMaghrib
+        :time="prayerTime.Maghrib"
+        :label="config.LabelMaghrib"
+        :isSelected="isSelected"
+        :fontSizePrayerlabel="config.FontSizePrayerlabel"
+        :fontSizePrayertime="config.FontSizePrayertime"
+      />
     </q-card>
-    <q-card :class="activeLabel=='Isya' ? 'selected' : 'card-prayer'">
-      <PrayerIsya :time="prayerTime.Isya" :label="config.LabelIsya" :isSelected="isSelected" :fontSizePrayerlabel="config.FontSizePrayerlabel" :fontSizePrayertime="config.FontSizePrayertime"/>
-    </q-card>    
+    <q-card :class="activeLabel == 'Isya' ? 'selected' : 'card-prayer'">
+      <PrayerIsya
+        :time="prayerTime.Isya"
+        :label="config.LabelIsya"
+        :isSelected="isSelected"
+        :fontSizePrayerlabel="config.FontSizePrayerlabel"
+        :fontSizePrayertime="config.FontSizePrayertime"
+      />
+    </q-card>
   </div>
   <div class="footer">
     <p class="footer-left">
-      <i class="fas fa-user-cog"></i>
-      iMasjid 2.0 
+      <i
+        class="fas fa-user-cog"
+        @click="openDashboard()"
+        style="cursor: pointer"
+      ></i>
+      iMasjid 2.0
       <i class="far fa-copyright"></i>{{ masjid.MasjidName }}
     </p>
     <p class="footer-right">
-      <i class="fas fa-phone-alt"></i> +62821-711-88500 |
-      <i class="fab fa-github" style="font-size:18px"></i> https://github.com/ridhonovembri/imasjid
-    </p>  
+      <i class="fas fa-phone-alt"></i> +62821-711-88500
+      <i class="fab fa-github" style="font-size: 18px"></i>
+      https://github.com/ridhonovembri/imasjid
+    </p>
   </div>
+
+  <audio id="beep-adzan">
+    <source src="/assets/sounds/SoundsBeepAdzan.mp3" type="audio/mpeg"/>
+  </audio>
+
+  <audio id="beep-iqomah">
+    <source src="/assets/sounds/SoundsBeepIqomah.mp3" type="audio/mpeg"/>
+  </audio>
 </template>
 
 <script>
+
 import PrayerShubuh from "@/components/PrayerShubuh.vue";
 import PrayerSyuruq from "@/components/PrayerSyuruq.vue";
 import PrayerDzuhur from "@/components/PrayerDzuhur.vue";
@@ -102,14 +189,15 @@ import Hadist from "@/components/Hadist.vue";
 import MasjidInfo from "@/components/MasjidInfo.vue";
 import PrepAdzan from "@/components/PrepAdzan.vue";
 import PrepIqomah from "@/components/PrepIqomah.vue";
-import Sholat from '@/components/Sholat.vue'
+import Sholat from "@/components/Sholat.vue";
 import MarqueeText from "@/components/MarqueeText.vue";
-import CountDownAdzan from '@/components/CountDownAdzan.vue'
+import CountDownAdzan from "@/components/CountDownAdzan.vue";
 
 import Get from "@/api/http-get";
 import HijrahDate from "hijrah-date";
 import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
 import moment from "moment";
+import Router from "@/router/index";
 
 export default {
   components: {
@@ -182,12 +270,12 @@ export default {
         MinutesToIqomahMaghrib: 0,
         MinutesToIqomahIsya: 0,
         MinutesToAdzanPrep: 0,
-        LabelShubuh: '',
-        LabelSyuruq: '',
-        LabelDzuhur: '',
-        LabelAshar: '',
-        LabelMaghrib: '',
-        LabelIsya: '',
+        LabelShubuh: "",
+        LabelSyuruq: "",
+        LabelDzuhur: "",
+        LabelAshar: "",
+        LabelMaghrib: "",
+        LabelIsya: "",
         AdjustShubuh: 0,
         AdjustSyuruq: 0,
         AdjustDzuhur: 0,
@@ -205,21 +293,22 @@ export default {
         IntervalSlide: 0,
         IntervalHadist: 0,
         SholatDuration: 0,
-        SoundLocation: '',
-        FontSizeMasjidname:'',
-        FontSizeMasjidaddress:'',
-        FontSizeDate:'',
-        FontSizeClockHourMinute:'',
-        FontSizeClockSecond:'',
-        FontSizeHadist:'',
-        FontSizeMarquee: '',
-        FontSizePrayerlabel:'',
-        FontSizePrayertime:'',
+        SoundLocation: "",
+        FontSizeMasjidname: "",
+        FontSizeMasjidaddress: "",
+        FontSizeDate: "",
+        FontSizeClockHourMinute: "",
+        FontSizeClockSecond: "",
+        FontSizeHadist: "",
+        FontSizeMarquee: "",
+        FontSizePrayerlabel: "",
+        FontSizePrayertime: "",
+        IsBeep: "Y",
       },
     };
   },
 
-  async created(){
+  async created() {
     await this.getMasjidConfig();
     await this.getMasjidInfo();
     await this.getPrayerTime();
@@ -233,6 +322,22 @@ export default {
   },
 
   methods: {
+
+    playBeepAdzan() {
+      var sound=document.getElementById("beep-adzan");
+      sound.play();
+    },
+
+    playBeepIqomah() {
+      var sound=document.getElementById("beep-iqomah");
+      sound.play();
+    },
+
+    openDashboard() {
+      let route = this.$router.resolve({ path: "/dashboard" });
+      window.open(route.href);
+    },
+
     async getMasjidConfig() {
       const result = (await Get.masjidConfig()).data;
 
@@ -259,41 +364,40 @@ export default {
 
       this.config.MinutesToAdzanPrep = result.MinutesToAdzanPrep;
 
-      this.config.AdjustShubuh = result.AdjustShubuh
-      this.config.AdjustSyuruq = result.AdjustSyuruq
-      this.config.AdjustDzuhur = result.AdjustDzuhur
-      this.config.AdjustAshar = result.AdjustAshar
-      this.config.AdjustMaghrib = result.AdjustMaghrib
-      this.config.AdjustIsya = result.AdjustIsya
+      this.config.AdjustShubuh = result.AdjustShubuh;
+      this.config.AdjustSyuruq = result.AdjustSyuruq;
+      this.config.AdjustDzuhur = result.AdjustDzuhur;
+      this.config.AdjustAshar = result.AdjustAshar;
+      this.config.AdjustMaghrib = result.AdjustMaghrib;
+      this.config.AdjustIsya = result.AdjustIsya;
 
-      this.config.Latitude = result.Latitude
-      this.config.Longitude = result.Longitude
+      this.config.Latitude = result.Latitude;
+      this.config.Longitude = result.Longitude;
 
       this.config.TextBeforeAdzan = result.TextBeforeAdzan;
       this.config.TextBeforeIqomah = result.TextBeforeIqomah;
-      this.config.TextDuringSholat1 = result.TextDuringSholat1
-      this.config.TextDuringSholat2 = result.TextDuringSholat2
-      this.config.BgImgSholat = result.BgImgSholat
-      this.config.IconDuringSholat = result.IconDuringSholat
-      this.config.IntervalSlide = result.IntervalSlide
-      this.config.IntervalHadist = result.IntervalHadist
-      this.config.SholatDuration = result.SholatDuration
-      this.config.SoundLocation = result.SoundLocation
-      this.config.FontSizeMasjidname = result.FontSizeMasjidname+'px'
-      this.config.FontSizeMasjidaddress = result.FontSizeMasjidaddress+'px',
-      this.config.FontSizeDate = result.FontSizeDate+'px',
-      this.config.FontSizeClockHourMinute = result.FontSizeClockHourMinute+'px',
-      this.config.FontSizeClockSecond = result.FontSizeClockSecond+'px',
-      this.config.FontSizeHadist = result.FontSizeHadist+'px',
-      this.config.FontSizeMarquee = result.FontSizeMarquee+'px',
-      this.config.FontSizePrayerlabel = result.FontSizePrayerlabel+'px'
-      this.config.FontSizePrayertime = result.FontSizePrayertime+'px'
-            
-      this.autoplay = result.IntervalSlide
-      // console.log('this.config', this.config)
+      this.config.TextDuringSholat1 = result.TextDuringSholat1;
+      this.config.TextDuringSholat2 = result.TextDuringSholat2;
+      this.config.BgImgSholat = result.BgImgSholat;
+      this.config.IconDuringSholat = result.IconDuringSholat;
+      this.config.IntervalSlide = result.IntervalSlide;
+      this.config.IntervalHadist = result.IntervalHadist;
+      this.config.SholatDuration = result.SholatDuration;
+      this.config.SoundLocation = result.SoundLocation;
+      this.config.FontSizeMasjidname = result.FontSizeMasjidname + "px";
+      (this.config.FontSizeMasjidaddress = result.FontSizeMasjidaddress + "px"),
+      (this.config.FontSizeDate = result.FontSizeDate + "px"),
+      (this.config.FontSizeClockHourMinute = result.FontSizeClockHourMinute + "px"),
+      (this.config.FontSizeClockSecond = result.FontSizeClockSecond + "px"),
+      (this.config.FontSizeHadist = result.FontSizeHadist + "px"),
+      (this.config.FontSizeMarquee = result.FontSizeMarquee + "px"),
+      (this.config.FontSizePrayerlabel = result.FontSizePrayerlabel + "px");
+      this.config.FontSizePrayertime = result.FontSizePrayertime + "px";
 
+      this.autoplay = result.IntervalSlide;
+      // console.log('this.config', this.config)
     },
-    
+
     async getMasjidInfo() {
       this.masjid = (await Get.masjidInfo()).data;
     },
@@ -305,8 +409,8 @@ export default {
 
     async getPrayerTime() {
       const today = new Date();
-      const latitude = parseFloat(this.config.Latitude)
-      const longitude = parseFloat(this.config.Longitude)
+      const latitude = parseFloat(this.config.Latitude);
+      const longitude = parseFloat(this.config.Longitude);
 
       // console.log('nilai latitude', this.config.Latitude + ',' + this.config.Longitude)
 
@@ -317,248 +421,281 @@ export default {
         // 0.406393, 101.845164
         // 1.117, 104.04
         // this.config.Latitude, this.config.Longitude
-        latitude, longitude
+        latitude,
+        longitude
       );
 
       // console.log('coordinates', coordinates)
 
       const prayerTimes = new PrayerTimes(coordinates, today, params);
-      // console.log("prayerTimes", prayerTimes);
-      // console.log('adjust Shubuh', this.config.AdjustShubuh)
 
-      this.prayerTime.Shubuh = moment(prayerTimes.fajr).add(this.config.AdjustShubuh, 'm').format("HH:mm");
-      this.prayerTime.Syuruq = moment(prayerTimes.sunrise).add(this.config.AdjustSyuruq, 'm').format("HH:mm");
-      this.prayerTime.Dzuhur = moment(prayerTimes.dhuhr).add(this.config.AdjustDzuhur, 'm').format("HH:mm");
-      this.prayerTime.Ashar = moment(prayerTimes.asr).add(this.config.AdjustAshar, 'm').format("HH:mm");
-      this.prayerTime.Maghrib = moment(prayerTimes.maghrib).add(this.config.AdjustMaghrib, 'm').format("HH:mm");
-      this.prayerTime.Isya = moment(prayerTimes.isha).add(this.config.AdjustIsya, 'm').format("HH:mm");
+      this.prayerTime.Shubuh = moment(prayerTimes.fajr).add(this.config.AdjustShubuh, "m").format("HH:mm");
+      this.prayerTime.Syuruq = moment(prayerTimes.sunrise).add(this.config.AdjustSyuruq, "m").format("HH:mm");
+      this.prayerTime.Dzuhur = moment(prayerTimes.dhuhr).add(this.config.AdjustDzuhur, "m").format("HH:mm");
+      this.prayerTime.Ashar = moment(prayerTimes.asr).add(this.config.AdjustAshar, "m").format("HH:mm");
+      this.prayerTime.Maghrib = moment(prayerTimes.maghrib).add(this.config.AdjustMaghrib, "m").format("HH:mm");
+      this.prayerTime.Isya = moment(prayerTimes.isha).add(this.config.AdjustIsya, "m").format("HH:mm");
       this.clock = moment(new Date()).format("HH:mm:ss");
       this.prayTimeAll = prayerTimes;
-
-      // console.log("Shubuh", this.prayerTimes.Shubuh);
-      // console.log("Dzuhur", this.prayerTimes.Dzuhur);
-      // console.log("Ashar", this.prayerTimes.Ashar);
-      // console.log("Maghrib", this.prayerTimes.Maghrib);
-      // console.log("Isya", this.prayerTimes.Isya);
-      // console.log("Syuruq", this.prayerTimes.Syuruq);
     },
 
     async getClock() {
+
       let today = new Date();
 
       //testing
-      // let currentTime = moment(today).add(354, "m");
-    
+      // let currentTime = moment(today).add(44, "m");
 
       //actual
       let currentTime = moment(today);
-      // console.log('currentTime', currentTime)
 
       const hour = moment(currentTime).format("HH:mm");
       const second = moment(currentTime).format("ss");
-      // const time = moment(currentTime).format("HH:mm:ss");
-      // console.log('hour', hour)
-      // console.log('second', second)
 
       this.clockHour = hour;
       this.clockSecond = second;
       let distanceToAdzan = "";
-      let distanceToIqomah = ""
+      let distanceToIqomah = "";
 
-      if (currentTime > moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm').subtract(this.config.MinutesToAdzanShubuh,"m") && currentTime < moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh+this.config.MinutesToIqomahShubuh+this.config.SholatDuration, "m")) {
-        this.isSelected = true
-        distanceToAdzan = moment.utc((moment(this.prayTimeAll.fajr, "HH:mm:ss").add(this.config.AdjustShubuh, 'm')).diff(moment(currentTime, "HH:mm:ss")))
-        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahShubuh, "m")
+      if (currentTime > moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, "m").subtract(this.config.MinutesToAdzanShubuh, "m") && currentTime < moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh + this.config.MinutesToIqomahShubuh + this.config.SholatDuration,"m")) {
+        this.isSelected = true;
+        distanceToAdzan = moment.utc(moment(this.prayTimeAll.fajr, "HH:mm:ss").add(this.config.AdjustShubuh, "m").diff(moment(currentTime, "HH:mm:ss")));
+        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahShubuh,"m");
 
         this.activeLabel = this.config.LabelShubuh;
-        this.showCountDownAdzan = true
-        this.countDownAdzanHour = distanceToAdzan.format("mm")
-        this.countDownAdzanSecond = distanceToAdzan.format("ss")
-        this.countDownIqomahHour = distanceToIqomah.format("mm")
-        this.countDownIqomahSecond = distanceToAdzan.format("ss")
+        this.showCountDownAdzan = true;
+        this.countDownAdzanHour = distanceToAdzan.format("mm");
+        this.countDownAdzanSecond = distanceToAdzan.format("ss");
+        this.countDownIqomahHour = distanceToIqomah.format("mm");
+        this.countDownIqomahSecond = distanceToAdzan.format("ss");
 
         //waiting to adzan
-        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {          
-          this.showCountDownAdzan = false
+        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
+          this.showCountDownAdzan = false;
           this.prepAdzan = true;
         }
 
+        //playbeep adzan shubuh
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh,"m").format("HH:mm:ss")) {      
+          this.playBeepAdzan();
+        }
+
         //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, 'm') && moment(currentTime) <= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh+this.config.MinutesToIqomahShubuh+this.config.SholatDuration, 'm')) {
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = true              
+        if (moment(currentTime) >= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh, "m") && moment(currentTime) <= moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh + this.config.MinutesToIqomahShubuh + this.config.SholatDuration,"m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = true;
         }
 
-        //start to sholat
-        if (moment(currentTime) > (moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh+this.config.MinutesToIqomahShubuh,'m'))) {       
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = false
-          this.sholat = true 
-          this.activeLabel = ''
-          this.currentSlide = "xx"
-          this.autoplay = false
+        //playbeep iqomah shubuh
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh + this.config.MinutesToIqomahShubuh,"m").format("HH:mm:ss")) {      
+          this.playBeepIqomah();
         }
-
-      } else if (currentTime > moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm').subtract(this.config.MinutesToAdzanDzuhur,"m") && currentTime < moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur+this.config.MinutesToIqomahDzuhur+this.config.SholatDuration, 'm')) {
-        this.isSelected = true
-        distanceToAdzan = moment.utc((moment(this.prayTimeAll.dhuhr, "HH:mm:ss").add(this.config.AdjustDzuhur, 'm')).diff(moment(currentTime, "HH:mm:ss")))
-        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahDzuhur, "m")
+        
+        //start to sholat        
+        if (moment(currentTime) > moment(this.prayTimeAll.fajr).add(this.config.AdjustShubuh + this.config.MinutesToIqomahShubuh,"m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = false;
+          this.sholat = true;
+          this.activeLabel = "";
+          this.currentSlide = "xx";
+          this.autoplay = false;
+        }
+      } else if (currentTime > moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, "m").subtract(this.config.MinutesToAdzanDzuhur, "m") && currentTime < moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur + this.config.MinutesToIqomahDzuhur + this.config.SholatDuration,"m")) {
+        this.isSelected = true;
+        distanceToAdzan = moment.utc(moment(this.prayTimeAll.dhuhr, "HH:mm:ss").add(this.config.AdjustDzuhur, "m").diff(moment(currentTime, "HH:mm:ss")));
+        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahDzuhur,"m");
 
         this.activeLabel = this.config.LabelDzuhur;
-        this.showCountDownAdzan = true
-        this.countDownAdzanHour = distanceToAdzan.format("mm")
-        this.countDownAdzanSecond = distanceToAdzan.format("ss")
-        this.countDownIqomahHour = distanceToIqomah.format("mm")
-        this.countDownIqomahSecond = distanceToAdzan.format("ss")
+        this.showCountDownAdzan = true;
+        this.countDownAdzanHour = distanceToAdzan.format("mm");
+        this.countDownAdzanSecond = distanceToAdzan.format("ss");
+        this.countDownIqomahHour = distanceToIqomah.format("mm");
+        this.countDownIqomahSecond = distanceToAdzan.format("ss");
 
         //waiting to adzan
-        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {        
-          this.showCountDownAdzan = false
+        if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
+          this.showCountDownAdzan = false;
           this.prepAdzan = true;
         }
 
+        //playbeep adzan dzuhur
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur,"m").format("HH:mm:ss")) {      
+          this.playBeepAdzan();
+        }
+
         //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm') && moment(currentTime) <= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur+this.config.MinutesToIqomahDzuhur+this.config.SholatDuration, "m")) {
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = true              
+        if (moment(currentTime) >= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, "m") && moment(currentTime) <= moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur + this.config.MinutesToIqomahDzuhur + this.config.SholatDuration,"m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = true;
+        }
+
+        //playbeep iqomah dzuhur
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur + this.config.MinutesToIqomahDzuhur,"m").format("HH:mm:ss")) {      
+          this.playBeepIqomah();
         }
 
         //start to sholat
-        if (moment(currentTime) > (moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, 'm')).add(this.config.MinutesToIqomahDzuhur, 'm')) {       
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = false
-          this.sholat = true 
-          this.activeLabel = ''
-          this.currentSlide = "xx"
-          this.autoplay = false
+        if (moment(currentTime) > moment(this.prayTimeAll.dhuhr).add(this.config.AdjustDzuhur, "m").add(this.config.MinutesToIqomahDzuhur, "m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = false;
+          this.sholat = true;
+          this.activeLabel = "";
+          this.currentSlide = "xx";
+          this.autoplay = false;
         }
-       
-      } else if (currentTime > moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm').subtract(this.config.MinutesToAdzanAshar,"m") && currentTime < moment(this.prayTimeAll.asr).add(this.config.AdjustAshar+this.config.MinutesToIqomahAshar+this.config.SholatDuration, "m")) {
-        this.isSelected = true
-        distanceToAdzan = moment.utc((moment(this.prayTimeAll.asr, "HH:mm:ss").add(this.config.AdjustAshar, 'm')).diff(moment(currentTime, "HH:mm:ss")))
-        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahAshar, "m")
+      } else if (currentTime > moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, "m").subtract(this.config.MinutesToAdzanAshar, "m") && currentTime < moment(this.prayTimeAll.asr).add(this.config.AdjustAshar + this.config.MinutesToIqomahAshar + this.config.SholatDuration,"m")) {
+        this.isSelected = true;
+        distanceToAdzan = moment.utc(moment(this.prayTimeAll.asr, "HH:mm:ss").add(this.config.AdjustAshar, "m").diff(moment(currentTime, "HH:mm:ss")));
+        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahAshar,"m");
 
         this.activeLabel = this.config.LabelAshar;
-        this.showCountDownAdzan = true
-        this.countDownAdzanHour = distanceToAdzan.format("mm")
-        this.countDownAdzanSecond = distanceToAdzan.format("ss")
-        this.countDownIqomahHour = distanceToIqomah.format("mm")
-        this.countDownIqomahSecond = distanceToAdzan.format("ss")
+        this.showCountDownAdzan = true;
+        this.countDownAdzanHour = distanceToAdzan.format("mm");
+        this.countDownAdzanSecond = distanceToAdzan.format("ss");
+        this.countDownIqomahHour = distanceToIqomah.format("mm");
+        this.countDownIqomahSecond = distanceToAdzan.format("ss");
 
         //waiting to adzan
         if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
           // console.log('countdown to adzan')
-          this.showCountDownAdzan = false
+          this.showCountDownAdzan = false;
           this.prepAdzan = true;
         }
 
+        //playbeep adzan ashar
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.asr).add(this.config.AdjustAshar,"m").format("HH:mm:ss")) {      
+          this.playBeepAdzan();
+        }
+
         //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm') && moment(currentTime) <= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar+this.config.MinutesToIqomahAshar+this.config.SholatDuration, "m")) {
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = true    
+        if (moment(currentTime) >= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, "m") && moment(currentTime) <= moment(this.prayTimeAll.asr).add(this.config.AdjustAshar + this.config.MinutesToIqomahAshar + this.config.SholatDuration,"m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = true;
+        }
+
+        //playbeep iqomah ashar
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.asr).add(this.config.AdjustAshar + this.config.MinutesToIqomahAshar,"m").format("HH:mm:ss")) {      
+          this.playBeepIqomah();
         }
 
         //start to sholat
-        if (moment(currentTime) > (moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, 'm')).add(this.config.MinutesToIqomahAshar, 'm')) {                 
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = false
-          this.sholat = true 
-          this.activeLabel = ''
-          this.currentSlide = "xx"
-          this.autoplay = false
+        if (moment(currentTime) > moment(this.prayTimeAll.asr).add(this.config.AdjustAshar, "m").add(this.config.MinutesToIqomahAshar, "m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = false;
+          this.sholat = true;
+          this.activeLabel = "";
+          this.currentSlide = "xx";
+          this.autoplay = false;
         }
-
-      } else if (currentTime > moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm').subtract(this.config.MinutesToAdzanMaghrib,"m") && currentTime < moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib+this.config.MinutesToIqomahMaghrib+this.config.SholatDuration, "m")) {
-        this.isSelected = true
-        distanceToAdzan = moment.utc((moment(this.prayTimeAll.maghrib, "HH:mm:ss").add(this.config.AdjustMaghrib, 'm')).diff(moment(currentTime, "HH:mm:ss")))
-        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahMaghrib, "m")
+      } else if (currentTime > moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, "m").subtract(this.config.MinutesToAdzanMaghrib, "m") && currentTime < moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib + this.config.MinutesToIqomahMaghrib + this.config.SholatDuration,"m")) {
+        this.isSelected = true;
+        distanceToAdzan = moment.utc(moment(this.prayTimeAll.maghrib, "HH:mm:ss").add(this.config.AdjustMaghrib, "m").diff(moment(currentTime, "HH:mm:ss")));
+        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahMaghrib,"m");
 
         this.activeLabel = this.config.LabelMaghrib;
-        this.showCountDownAdzan = true
-        this.countDownAdzanHour = distanceToAdzan.format("mm")
-        this.countDownAdzanSecond = distanceToAdzan.format("ss")
-        this.countDownIqomahHour = distanceToIqomah.format("mm")
-        this.countDownIqomahSecond = distanceToAdzan.format("ss")
+        this.showCountDownAdzan = true;
+        this.countDownAdzanHour = distanceToAdzan.format("mm");
+        this.countDownAdzanSecond = distanceToAdzan.format("ss");
+        this.countDownIqomahHour = distanceToIqomah.format("mm");
+        this.countDownIqomahSecond = distanceToAdzan.format("ss");
 
         //waiting to adzan
         if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
-          // console.log('countdown to adzan')
-          this.showCountDownAdzan = false
+          this.showCountDownAdzan = false;
           this.prepAdzan = true;
         }
 
+         //playbeep adzan magrib
+         if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib,"m").format("HH:mm:ss")) {      
+          this.playBeepAdzan();
+        }       
+
         //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm') && moment(currentTime) <= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib+this.config.MinutesToIqomahMaghrib+this.config.SholatDuration, "m")) {
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = true    
+        if (moment(currentTime) >= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib,"m") && moment(currentTime) <= moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib + this.config.MinutesToIqomahMaghrib + this.config.SholatDuration,"m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = true;
+        }
+
+        //playbeep iqomah maghrib
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib + this.config.MinutesToIqomahMaghrib,"m").format("HH:mm:ss")) {      
+          this.playBeepIqomah();
         }
 
         //start to sholat
-        if (moment(currentTime) > (moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, 'm')).add(this.config.MinutesToIqomahMaghrib, 'm')) {       
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = false
-          this.sholat = true 
-          this.activeLabel = ''
-          this.currentSlide = "xx"
-          this.autoplay = false
+        if (
+          moment(currentTime) > moment(this.prayTimeAll.maghrib).add(this.config.AdjustMaghrib, "m").add(this.config.MinutesToIqomahMaghrib, "m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = false;
+          this.sholat = true;
+          this.activeLabel = "";
+          this.currentSlide = "xx";
+          this.autoplay = false;
         }
-
-      } else if (currentTime > moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm').subtract(this.config.MinutesToAdzanIsya,"m") && currentTime < moment(this.prayTimeAll.isha).add(this.config.AdjustIsya+this.config.MinutesToIqomahIsya+this.config.SholatDuration, "m")) {
-        this.isSelected = true
-        distanceToAdzan = moment.utc((moment(this.prayTimeAll.isha, "HH:mm:ss").add(this.config.AdjustIsya, 'm')).diff(moment(currentTime, "HH:mm:ss")))
-        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahIsya, "m")
+      } else if (
+        currentTime > moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, "m").subtract(this.config.MinutesToAdzanIsya, "m") && currentTime < moment(this.prayTimeAll.isha).add(this.config.AdjustIsya + this.config.MinutesToIqomahIsya + this.config.SholatDuration,"m")) {
+        this.isSelected = true;
+        distanceToAdzan = moment.utc(moment(this.prayTimeAll.isha, "HH:mm:ss").add(this.config.AdjustIsya, "m").diff(moment(currentTime, "HH:mm:ss")));
+        distanceToIqomah = moment(distanceToAdzan).add(this.config.MinutesToIqomahIsya,"m");
 
         this.activeLabel = this.config.LabelIsya;
-        this.showCountDownAdzan = true
-        this.countDownAdzanHour = distanceToAdzan.format("mm")
-        this.countDownAdzanSecond = distanceToAdzan.format("ss")
-        this.countDownIqomahHour = distanceToIqomah.format("mm")
-        this.countDownIqomahSecond = distanceToAdzan.format("ss")
+        this.showCountDownAdzan = true;
+        this.countDownAdzanHour = distanceToAdzan.format("mm");
+        this.countDownAdzanSecond = distanceToAdzan.format("ss");
+        this.countDownIqomahHour = distanceToIqomah.format("mm");
+        this.countDownIqomahSecond = distanceToAdzan.format("ss");
 
         //waiting to adzan
         if (distanceToAdzan.minutes() < this.config.MinutesToAdzanPrep) {
-          this.showCountDownAdzan = false
+          this.showCountDownAdzan = false;
           this.prepAdzan = true;
+        }
+
+        //playbeep adzan isya
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.isha).add(this.config.AdjustIsya,"m").format("HH:mm:ss")) {      
+          this.playBeepAdzan();
         }
 
         // //start to adzan and waiting to iqomah
-        if (moment(currentTime) >= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm') && moment(currentTime) <= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya+this.config.MinutesToIqomahIsya+this.config.SholatDuration, "m")) {
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = true    
+        if (moment(currentTime) >= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, "m") && moment(currentTime) <= moment(this.prayTimeAll.isha).add(this.config.AdjustIsya + this.config.MinutesToIqomahIsya + this.config.SholatDuration,"m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = true;
+        }
+
+        //playbeep iqomah shubuh
+        if (this.config.IsBeep == "Y" && moment(currentTime).format("HH:mm:ss") === moment(this.prayTimeAll.isha).add(this.config.AdjustIsya + this.config.MinutesToIqomahIsya,"m").format("HH:mm:ss")) {      
+          this.playBeepIqomah();
         }
 
         //start to sholat
-        if (moment(currentTime) > (moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, 'm')).add(this.config.MinutesToIqomahIsya, 'm')) {       
-          this.showCountDownAdzan = false
-          this.prepAdzan = false
-          this.prepIqomah = false
-          this.sholat = true 
-          this.activeLabel = ''
-          this.currentSlide = "xx"
-          this.autoplay = false
+        if (moment(currentTime) > moment(this.prayTimeAll.isha).add(this.config.AdjustIsya, "m").add(this.config.MinutesToIqomahIsya, "m")) {
+          this.showCountDownAdzan = false;
+          this.prepAdzan = false;
+          this.prepIqomah = false;
+          this.sholat = true;
+          this.activeLabel = "";
+          this.currentSlide = "xx";
+          this.autoplay = false;
         }
-        
-      } 
-      else{
-        this.showCountDownAdzan = false
-        this.activeLabel = ''       
-        this.autoplay = this.config.IntervalSlide 
+      } else {
+        this.showCountDownAdzan = false;
+        this.activeLabel = "";
+        this.autoplay = this.config.IntervalSlide;
 
-        if (this.sholat) {          
-          location.reload()
-          this.currentSlide = "Img01"
-          this.sholat = false
+        if (this.sholat) {
+          location.reload();
+          this.currentSlide = "Img01";
+          this.sholat = false;
         }
-      }  
+      }
     },
 
     async getToday() {
@@ -710,8 +847,6 @@ export default {
       this.todayHijrah = today;
       // console.log('hijrahDate', day,'-', date,'-',month,'-', year)
     },
-
-    
   },
 };
 </script>
@@ -738,7 +873,7 @@ export default {
   /* margin-right: 5%; */
   /* background-color: rgba(0, 0, 0, 0.2); */
   color: #fff1e6;
-  background: #124265; 
+  background: #124265;
 }
 
 /* .custom-caption {
@@ -771,36 +906,34 @@ export default {
   width: 100%;
   height: 120px;
   position: absolute;
-  bottom: 8vh;  
+  bottom: 8vh;
   /* background: rgba(168, 218, 220, 0.3); */
 }
 
-.footer{
+.footer {
   width: 100%;
   /* height: 3px; */
   position: absolute;
-  bottom: 0; 
+  bottom: 0;
 }
 
-.footer-left
-{
+.footer-left {
   float: left;
   font-size: 12px;
   margin-left: 20px;
   color: #fff1e6;
   letter-spacing: 2px;
-  font-family: 'montserratmedium';
+  font-family: "montserratmedium";
   font-weight: 700;
 }
 
-.footer-right
-{
+.footer-right {
   float: right;
   font-size: 12px;
   margin-right: 20px;
   color: #fff1e6;
   letter-spacing: 2px;
-  font-family: 'montserratmedium';
+  font-family: "montserratmedium";
   font-weight: 700;
 }
 
@@ -827,8 +960,6 @@ export default {
   /* color: rgb(255,127,80); */
   /* background: #1d3557; */
   /* background: #f77f00; */
-  background: #124265; 
-
+  background: #124265;
 }
-
 </style>
