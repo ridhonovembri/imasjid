@@ -456,7 +456,7 @@ export default {
 
       // console.log('hour', hourToRefresh)
 
-      if (hourToRefresh == '01:06') {
+      if (hourToRefresh == '01:00') {
         location.reload();
       }
 
