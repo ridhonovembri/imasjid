@@ -452,6 +452,14 @@ export default {
       const hour = moment(currentTime).format("HH:mm");
       const second = moment(currentTime).format("ss");
 
+      let hourToRefresh = moment(currentTime).format("HH:mm")
+
+      // console.log('hour', hourToRefresh)
+
+      if (hourToRefresh == '01:06') {
+        location.reload();
+      }
+
       this.clockHour = hour;
       this.clockSecond = second;
       let distanceToAdzan = "";

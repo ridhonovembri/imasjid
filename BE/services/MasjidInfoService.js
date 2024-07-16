@@ -2,6 +2,7 @@ const db = require("../models");
 
 exports.findAll = async () => {
   try {
+    console.log('access from client')
     const result = await db.masjidinfo.findAll({
     });
 
@@ -13,6 +14,7 @@ exports.findAll = async () => {
 
 exports.findOne = async () => {
   try {
+    console.log('access from client')
     const result = await db.masjidinfo.findOne({
     });
 
