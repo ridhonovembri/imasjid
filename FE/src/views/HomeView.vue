@@ -15,6 +15,7 @@
           :name="slide.ImgName"
           :img-src="slide.ImgSource"
         >
+        
           <MasjidInfo
             v-show="!sholat"
             :MasjidName="masjid.MasjidName"
@@ -26,8 +27,9 @@
             :fontSizeMasjidname="config.FontSizeMasjidname"
             :fontSizeMasjidaddress="config.FontSizeMasjidaddress"
             :fontSizeDate="config.FontSizeDate"
-            style="margin-left: 10px"
+            style="margin-left: 10px; background-color: rgba(0, 0, 0, 0.7)"            
           />
+        
 
           <div class="absolute-top-center" v-show="!sholat">
             <q-card class="card-clock">
@@ -444,7 +446,7 @@ export default {
       let today = new Date();
 
       //testing
-      // let currentTime = moment(today).add(44, "m");
+      // let currentTime = moment(today).add(103, "m");
 
       //actual
       let currentTime = moment(today);
@@ -865,13 +867,14 @@ export default {
   max-width: 16%;
   margin: auto;
   /* background-color: rgba(0, 0, 0, 0.5); */
-  background: rgba(168, 218, 220, 0.3);
+  /* background: rgba(168, 218, 220, 0.3); */
+  background-color: rgba(0, 0, 0, 0.5);  
   color: #ffd152;
 }
 
 .card-clock {
   width: 25%;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.7);  
   margin: auto;
 }
 
@@ -881,7 +884,9 @@ export default {
   /* margin-right: 5%; */
   /* background-color: rgba(0, 0, 0, 0.2); */
   color: #fff1e6;
-  background: #124265;
+  /* background: #124265; */
+  /* background-color: rgba(0, 0, 0, 0.5);   */
+  background-color: #be12ce;  
 }
 
 /* .custom-caption {
@@ -894,7 +899,8 @@ export default {
 .marquee {
   width: 100%;
   height: 50px;
-  background-color: rgba(0, 0, 0, 0.2);
+  /* background-color: rgba(0, 0, 0, 0.2); */
+  background-color: rgba(0, 0, 0, 0.5);  
   position: absolute;
   bottom: 20vh;
   /* right:0px; */
@@ -956,6 +962,7 @@ export default {
   /* background-color: rgba(0, 0, 0, 0.2); */
   /* background-color: black; */
   text-align: center;
+  /* background-color: rgba(0, 0, 0, 0.5);   */
 }
 
 .selected {
@@ -968,6 +975,6 @@ export default {
   /* color: rgb(255,127,80); */
   /* background: #1d3557; */
   /* background: #f77f00; */
-  background: #124265;
+  background: #be12ce;
 }
 </style>
